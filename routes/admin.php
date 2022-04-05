@@ -36,21 +36,6 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
     });
     ##################### End Specialty ########################
 
-    ##################### Category ############################
-    Route::group(['prefix'=>'category'],function (){
-        Route::get('/','CategoryController@index')->name('admin.category');
-        Route::get('create','CategoryController@create')->name('admin.category.create');
-        Route::post('store','CategoryController@store')->name('admin.category.store');
-
-        Route::get('import','CategoryController@import')->name('admin.category.import');
-        Route::post('importstore','CategoryController@importstore')->name('admin.category.importstore');
-
-        Route::get('edit/{id}','CategoryController@edit')->name('admin.category.edit');
-        Route::post('update/{id}','CategoryController@update')->name('admin.category.update');
-
-        // Route::get('delete/{id}','CategoryController@destroy') -> name('admin.category.delete');
-    });
-    ##################### End Category ########################
 
     ##################### MedicalType ############################
     Route::group(['prefix'=>'medicaltype'],function (){
@@ -65,21 +50,6 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
     });
     ##################### End MedicalType ########################
 
-    ##################### Service ############################
-    Route::group(['prefix'=>'service'],function (){
-        Route::get('/','ServiceController@index')->name('admin.service');
-        Route::get('create','ServiceController@create')->name('admin.service.create');
-        Route::post('store','ServiceController@store')->name('admin.service.store');
-
-        Route::get('import','ServiceController@import')->name('admin.service.import');
-        Route::post('importstore','ServiceController@importstore')->name('admin.service.importstore');
-
-        Route::get('edit/{id}','ServiceController@edit')->name('admin.service.edit');
-        Route::post('update/{id}','ServiceController@update')->name('admin.service.update');
-
-        // Route::get('delete/{id}','ServiceController@destroy') -> name('admin.service.delete');
-    });
-    ##################### End Service ########################
 
     ##################### PriceList ############################
     Route::group(['prefix'=>'pricelist'],function (){
@@ -158,7 +128,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
         // Route::get('delete/{id}','ReferralController@destroy') -> name('admin.referral.delete');
     });
     ##################### End Referral ########################
-
+*/
     ##################### Admin ##############################
     Route::group(['prefix'=>'admin'],function (){
         Route::get('/','AdminController@index')->name('admin.admin');
@@ -171,7 +141,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
         Route::get('delete/{id}','AdminController@destroy') -> name('admin.admin.delete');
     });
     ##################### End Admin ##########################
-
+/*
     ##################### Role ###############################
     Route::group(['prefix'=>'role'],function (){
         Route::get('/','RoleController@index')->name('admin.role');
