@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Employ extends Model
 {
     use HasFactory;
-    
-    protected $table = 'category';
+
+    protected $table = 'employs';
 
     /**
      * The attributes that are mass assignable.
@@ -17,30 +17,12 @@ class Employ extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'name_ar', 'name_en', 'parent_id', 'admin_id', 'disabled', 'created_at', 'updated_at'
+        'id', 'name', 'address', 'phone1', 'phone2', 'salary', 'patment', 'admin_id', 'created_at', 'updated_at'    
     ];
 
     public function  scopeSelection($query){
-        $query -> where('disabled','!=',9); // Not Deleted 
-        // $query -> where('disabled','!=',1); // Not disabled 
         return $query -> select(
-            'id', 'name_ar', 'name_en', 'parent_id', 'admin_id', 'disabled', 'created_at', 'updated_at'
+            'id', 'name', 'address', 'phone1', 'phone2', 'salary', 'patment', 'admin_id', 'created_at', 'updated_at'    
         );
-    }
-
-    public function scopeGeneral($query){
-        return $query -> where('parent_id',null);
-    }
-
-    public function scopeMain($query){
-        return $query -> where('parent_id','!=',null);
-    }
-
-    public function scopeActive($query){
-        return $query -> where('disabled',0);
-    }
-
-    public function getActive(){
-        return $this -> disabled == 0 ? 'مفعل'  : 'غير مفعل';
     }
 }

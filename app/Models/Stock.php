@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Stock extends Model
 {
     use HasFactory;
+    protected $table = 'stocks';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'id', 'name', 'address', 'admin_id', 'created_at', 'updated_at'    
+    ];
+
+    public function  scopeSelection($query){
+        return $query -> select(
+            'id', 'name', 'address', 'admin_id', 'created_at', 'updated_at'    
+        );
+    }
 }

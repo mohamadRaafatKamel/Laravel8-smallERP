@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class OrderReceive extends Model
 {
     use HasFactory;
+    protected $table = 'order_receives';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'id', 'order_id', 'product_buy_id', 'date_receive', 'clearance_id', 'clearance_cost', 'transfer_id', 'transfer_cost', 'admin_id', 'created_at', 'updated_at'    
+    ];
+
+    public function  scopeSelection($query){
+        return $query -> select(
+            'id', 'order_id', 'product_buy_id', 'date_receive', 'clearance_id', 'clearance_cost', 'transfer_id', 'transfer_cost', 'admin_id', 'created_at', 'updated_at'    
+        );
+    }
 }
