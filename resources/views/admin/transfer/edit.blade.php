@@ -74,11 +74,11 @@ else
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="projectinput1"> {{ __('Phone') }}  1</label>
-                                                            <input type="text" value="{{ $datas -> photo1 }}" id="photo1"
+                                                            <input type="text" value="{{ $datas -> phone1 }}" id="phone1"
                                                                    class="form-control" {{ $readonly }}
                                                                    placeholder="{{ __('Phone') }}  1 "
-                                                                   name="photo1">
-                                                            @error('photo1')
+                                                                   name="phone1">
+                                                            @error('phone1')
                                                             <span class="text-danger">{{$message}}</span>
                                                             @enderror
                                                         </div>
@@ -87,11 +87,11 @@ else
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="projectinput1"> {{ __('Phone') }}  2</label>
-                                                            <input type="text" value="{{ $datas -> photo2 }}" id="photo2"
+                                                            <input type="text" value="{{ $datas -> phone2 }}" id="phone2"
                                                                    class="form-control" {{ $readonly }}
                                                                    placeholder="{{ __('Phone') }} 2 "
-                                                                   name="photo2">
-                                                            @error('photo2')
+                                                                   name="phone2">
+                                                            @error('phone2')
                                                             <span class="text-danger">{{$message}}</span>
                                                             @enderror
                                                         </div>

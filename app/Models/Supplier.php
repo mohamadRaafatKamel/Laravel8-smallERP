@@ -16,12 +16,12 @@ class Supplier extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'name', 'photo1', 'photo2', 'status', 'address', 'opening_balance', 'arrive_long', 'admin_id', 'created_at', 'updated_at'    
+        'id', 'name', 'phone1', 'phone2', 'status', 'address', 'opening_balance', 'arrive_long', 'admin_id', 'created_at', 'updated_at'    
     ];
 
     public function  scopeSelection($query){
         return $query -> select(
-            'id', 'name', 'photo1', 'photo2', 'status', 'address', 'opening_balance', 'arrive_long', 'admin_id', 'created_at', 'updated_at'    
+            'id', 'name', 'phone1', 'phone2', 'status', 'address', 'opening_balance', 'arrive_long', 'admin_id', 'created_at', 'updated_at'    
         );
     }
 

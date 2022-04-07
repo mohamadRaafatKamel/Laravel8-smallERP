@@ -66,8 +66,8 @@
                                                     <tr>
                                                         <td>{{$data -> id}}</td>
                                                         <td>{{$data -> name}}</td>
-                                                        <td>{{$data -> photo1}}</td>
-                                                        <td>{{$data -> photo2}}</td>
+                                                        <td>{{$data -> phone1}}</td>
+                                                        <td>{{$data -> phone2}}</td>
                                                         <td>{{$data -> address}}</td>
                                                         <td>
                                                             {{-- <div class="btn-group" role="group" aria-label="Basic example"> --}}
