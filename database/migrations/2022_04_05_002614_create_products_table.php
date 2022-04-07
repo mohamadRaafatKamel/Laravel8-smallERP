@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->date('exp_long')->nullable();
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('admin')->onDelete('cascade');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

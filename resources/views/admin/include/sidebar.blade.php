@@ -250,54 +250,57 @@
                         @endif
                     </ul>
                 </li>
-            @endif
+            @endif --}}
 
-            @if(\App\Models\Role::havePremission(['referral_view','referral_cr','referral_idt']))
+            @if(\App\Models\Role::havePremission(['supplier_view','supplier_cr','supplier_idt']))
                 <li class="nav-item">
                     <a href=""><i class="la la-undo"></i>
-                        <span class="menu-title" data-i18n="nav.dash.main"> {{ __('Referral') }} </span>
+                        <span class="menu-title" data-i18n="nav.dash.main"> {{ __('Supplier') }} </span>
                     </a>
                     <ul class="menu-content">
-                        @if(\App\Models\Role::havePremission(['referral_view','referral_idt']))
+                        @if(\App\Models\Role::havePremission(['supplier_view','supplier_idt']))
                         <li
-                        @if(View::hasSection('referral_view')) class="active" @endif
-                        ><a class="menu-item" href="{{route('admin.referral')}}"
+                        @if(View::hasSection('supplier_view')) class="active" @endif
+                        ><a class="menu-item" href="{{route('admin.supplier')}}"
                             data-i18n="nav.dash.ecommerce"> عرض الكل </a>
                         </li>
                         @endif
-                        @if(\App\Models\Role::havePremission(['referral_cr']))
+                        @if(\App\Models\Role::havePremission(['supplier_cr']))
                             <li
-                            @if(View::hasSection('referral_cr')) class="active" @endif
-                            ><a class="menu-item" href="{{route('admin.referral.create')}}" data-i18n="nav.dash.crypto">
+                            @if(View::hasSection('supplier_cr')) class="active" @endif
+                            ><a class="menu-item" href="{{route('admin.supplier.create')}}" data-i18n="nav.dash.crypto">
                                     أضافه جديد </a>
                             </li>
                         @endif
-
-                        @if(\App\Models\Role::havePremission(['referral_cat']))
-                            <li
-                            @if(View::hasSection('referral_cat')) class="active" @endif
-                            ><a class="menu-item" href="{{route('admin.referral.cat')}}" data-i18n="nav.dash.crypto">
-                                {{ __('Referral Category') }} </a>
-                            </li>
-                        @endif
-
                     </ul>
                 </li>
-            @endif --}}
+            @endif 
 
-            {{-- @if(\App\Models\Role::havePremission(['report_view']))
+            @if(\App\Models\Role::havePremission(['unit_view','unit_cr','unit_idt']))
                 <li class="nav-item">
-                    <a href=""><i class="la la-folder-open"></i>
-                        <span class="menu-title" data-i18n="nav.dash.main"> {{ __('Report') }} </span>
+                    <a href=""><i class="la la-undo"></i>
+                        <span class="menu-title" data-i18n="nav.dash.main"> {{ __('Unit') }} </span>
                     </a>
                     <ul class="menu-content">
-                        <li @if(View::hasSection('report_out')) class="active" @endif >
-                            <a class="menu-item" href="{{route('admin.report.out')}}" data-i18n="nav.dash.ecommerce"> {{ __('OutPatient') }} </a>
+                        @if(\App\Models\Role::havePremission(['unit_view','unit_idt']))
+                        <li
+                        @if(View::hasSection('unit_view')) class="active" @endif
+                        ><a class="menu-item" href="{{route('admin.unit')}}"
+                            data-i18n="nav.dash.ecommerce"> عرض الكل </a>
                         </li>
+                        @endif
+                        @if(\App\Models\Role::havePremission(['unit_cr']))
+                            <li
+                            @if(View::hasSection('unit_cr')) class="active" @endif
+                            ><a class="menu-item" href="{{route('admin.unit.create')}}" data-i18n="nav.dash.crypto">
+                                    أضافه جديد </a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
-            @endif --}}
+            @endif 
 
+           
             @if(\App\Models\Role::havePremission(['admin_view','admin_cr','admin_idt']))
             <li class="nav-item">
                 <a href=""><i class="la la-user-secret"></i>

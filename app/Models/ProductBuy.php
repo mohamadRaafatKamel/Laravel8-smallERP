@@ -16,12 +16,12 @@ class ProductBuy extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'product_id', 'category', 'amount', 'unit_id', 'admin_id', 'created_at', 'updated_at'    
+        'id', 'product_id', 'category', 'amount', 'status', 'unit_id', 'admin_id', 'created_at', 'updated_at'    
     ];
 
     public function  scopeSelection($query){
         return $query -> select(
-            'id', 'product_id', 'category', 'amount', 'unit_id', 'admin_id', 'created_at', 'updated_at'    
+            'id', 'product_id', 'category', 'amount', 'status', 'unit_id', 'admin_id', 'created_at', 'updated_at'    
         );
     }
 }

@@ -16,12 +16,12 @@ class OrderEmp extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'order_rec_id', 'employ_id', 'cost', 'admin_id', 'created_at', 'updated_at'    
+        'id', 'order_rec_id', 'employ_id', 'status', 'cost', 'admin_id', 'created_at', 'updated_at'    
     ];
 
     public function  scopeSelection($query){
         return $query -> select(
-            'id', 'order_rec_id', 'employ_id', 'cost', 'admin_id', 'created_at', 'updated_at'    
+            'id', 'order_rec_id', 'employ_id', 'status', 'cost', 'admin_id', 'created_at', 'updated_at'    
         );
     }
 }

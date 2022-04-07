@@ -10,7 +10,7 @@
     "Emergency Call": "مكالمة طوارئ",
     "Home Visit": "زيارة منزلية",
     "Book Integrated Medical Services": "احجز خدمات طبية متكاملة",
-    "Specialty": "التخصص",
+    "Unit": "الوحدات",
     "Add your Phone": "ادخل رقم الهاتف",
     "Call me": "اتصل",
     "Our Serves": "خدماتنا",
@@ -170,7 +170,7 @@
     "Data": "البيانات",
     "//Admin Role End": "Admin Role End",
 
-    "Parent": "التخصص الرئيسي",
+    "Parent": " الرئيسي",
     "Package": "باكدج",
     "Corporate": "التعاقدات",
     "Referral": "مصدر التحويل",
@@ -276,8 +276,11 @@
     "Following": "متابعه",
     "Date From": "من",
     "Date To": "الي",
-    "": "",
-    "": "",
+
+
+    
+    "Supplier": "المعامل",
+    "Opening Balance": "رصيد افتتاجي",
     "": "",
     "": "",
     "": "",

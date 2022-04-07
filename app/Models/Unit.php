@@ -16,12 +16,34 @@ class Unit extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'name', 'size', 'parent', 'admin_id', 'created_at', 'updated_at'    
+        'id', 'name', 'size', 'parent', 'admin_id', 'created_at', 'updated_at', 'status'    
     ];
 
     public function  scopeSelection($query){
+        
         return $query -> select(
-            'id', 'name', 'size', 'parent', 'admin_id', 'created_at', 'updated_at'    
+            'id', 'name', 'size', 'parent', 'admin_id', 'created_at', 'updated_at', 'status'
         );
+    }
+
+    public function scopeActive($query){
+        return $query -> where('status',0);
+    }
+
+    public function getActive(){
+        return   $this -> status == 0 ? 'مفعل'  : 'غير مفعل';
+    }
+
+    public function getParant(){
+        return   $this ->getName($this -> parent) ;
+    }
+
+    public static function getName($id)
+    {
+        $data = Unit::select()->find($id);
+        if(isset($data->id)){
+            return $data['name'];
+        }
+        return "_";
     }
 }

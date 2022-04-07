@@ -25,6 +25,7 @@ class CreateOrderInfosTable extends Migration
             $table->double('price',8,2)->nullable();
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('admin')->onDelete('cascade');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

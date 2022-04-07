@@ -17,12 +17,12 @@ class Employ extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'name', 'address', 'phone1', 'phone2', 'salary', 'patment', 'admin_id', 'created_at', 'updated_at'    
+        'id', 'name', 'address', 'phone1', 'status', 'phone2', 'salary', 'patment', 'admin_id', 'created_at', 'updated_at'    
     ];
 
     public function  scopeSelection($query){
         return $query -> select(
-            'id', 'name', 'address', 'phone1', 'phone2', 'salary', 'patment', 'admin_id', 'created_at', 'updated_at'    
+            'id', 'name', 'address', 'phone1', 'status', 'phone2', 'salary', 'patment', 'admin_id', 'created_at', 'updated_at'    
         );
     }
 }

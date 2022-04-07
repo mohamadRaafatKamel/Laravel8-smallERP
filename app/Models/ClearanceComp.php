@@ -17,12 +17,12 @@ class ClearanceComp extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'name', 'address', 'phone1', 'phone2', 'admin_id', 'created_at', 'updated_at'    
+        'id', 'name', 'address', 'status', 'phone1', 'phone2', 'admin_id', 'created_at', 'updated_at'    
     ];
 
     public function  scopeSelection($query){
         return $query -> select(
-            'id', 'name', 'address', 'phone1', 'phone2', 'admin_id', 'created_at', 'updated_at'    
+            'id', 'name', 'address', 'status', 'phone1', 'phone2', 'admin_id', 'created_at', 'updated_at'    
         );
     }
 }

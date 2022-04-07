@@ -19,24 +19,34 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
     Route::get('/','DashboardController@index')->name('admin.dashboard');
     Route::get('logout','DashboardController@logout')->name('admin.logout');
 
-    /*
-    Route::get('getnotification', 'DashboardController@notificationShow');
-    Route::get('savetoken', 'DashboardController@saveToken')->name('save.token');
+    
+    ##################### Unit ############################
+    Route::group(['prefix'=>'unit'],function (){
+        Route::get('/','UnitController@index')->name('admin.unit');
+        Route::get('create','UnitController@create')->name('admin.unit.create');
+        Route::post('store','UnitController@store')->name('admin.unit.store');
 
-    ##################### Specialty ############################
-    Route::group(['prefix'=>'specialty'],function (){
-        Route::get('/','SpecialtyController@index')->name('admin.specialty');
-        Route::get('create','SpecialtyController@create')->name('admin.specialty.create');
-        Route::post('store','SpecialtyController@store')->name('admin.specialty.store');
+        Route::get('edit/{id}','UnitController@edit')->name('admin.unit.edit');
+        Route::post('update/{id}','UnitController@update')->name('admin.unit.update');
 
-        Route::get('edit/{id}','SpecialtyController@edit')->name('admin.specialty.edit');
-        Route::post('update/{id}','SpecialtyController@update')->name('admin.specialty.update');
-
-        Route::get('delete/{id}','SpecialtyController@destroy') -> name('admin.specialty.delete');
+        Route::get('delete/{id}','UnitController@destroy') -> name('admin.unit.delete');
     });
-    ##################### End Specialty ########################
+    ##################### End Unit ########################
 
+    ##################### Supplier ############################
+    Route::group(['prefix'=>'supplier'],function (){
+        Route::get('/','SupplierController@index')->name('admin.supplier');
+        Route::get('create','SupplierController@create')->name('admin.supplier.create');
+        Route::post('store','SupplierController@store')->name('admin.supplier.store');
 
+        Route::get('edit/{id}','SupplierController@edit')->name('admin.supplier.edit');
+        Route::post('update/{id}','SupplierController@update')->name('admin.supplier.update');
+
+        Route::get('delete/{id}','SupplierController@destroy') -> name('admin.supplier.delete');
+    });
+    ##################### End Supplier ########################
+
+/*
     ##################### MedicalType ############################
     Route::group(['prefix'=>'medicaltype'],function (){
         Route::get('/','MedicalTypeController@index')->name('admin.medicaltype');

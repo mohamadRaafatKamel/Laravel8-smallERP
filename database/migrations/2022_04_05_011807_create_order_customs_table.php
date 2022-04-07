@@ -21,6 +21,7 @@ class CreateOrderCustomsTable extends Migration
             $table->double('cost',8,2)->nullable();
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('admin')->onDelete('cascade');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

@@ -16,12 +16,12 @@ class OrderPay extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'order_id', 'serial', 'date', 'payed', 'admin_id', 'created_at', 'updated_at'    
+        'id', 'order_id', 'serial', 'date', 'payed', 'status', 'admin_id', 'created_at', 'updated_at'    
     ];
 
     public function  scopeSelection($query){
         return $query -> select(
-            'id', 'order_id', 'serial', 'date', 'payed', 'admin_id', 'created_at', 'updated_at'    
+            'id', 'order_id', 'serial', 'date', 'payed', 'status', 'admin_id', 'created_at', 'updated_at'    
         );
     }
 }

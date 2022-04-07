@@ -23,6 +23,7 @@ class CreateEmploysTable extends Migration
             $table->integer('patment')->nullable();
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('admin')->onDelete('cascade');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

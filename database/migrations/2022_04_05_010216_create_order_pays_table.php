@@ -22,6 +22,7 @@ class CreateOrderPaysTable extends Migration
             $table->double('payed',8,2)->nullable();
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('admin')->onDelete('cascade');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

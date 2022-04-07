@@ -16,12 +16,12 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'name', 'exp_long', 'admin_id', 'created_at', 'updated_at'    
+        'id', 'name', 'exp_long', 'admin_id', 'status', 'created_at', 'updated_at'    
     ];
 
     public function  scopeSelection($query){
         return $query -> select(
-            'id', 'name', 'exp_long', 'admin_id', 'created_at', 'updated_at'    
+            'id', 'name', 'exp_long', 'admin_id', 'status', 'created_at', 'updated_at'    
         );
     }
 }

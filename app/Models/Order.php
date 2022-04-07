@@ -16,12 +16,12 @@ class Order extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'contract_no', 'date_order', 'date_arrive', 'payment_way', 'supplier_id', 'admin_id', 'created_at', 'updated_at'    
+        'id', 'contract_no', 'date_order', 'status', 'date_arrive', 'payment_way', 'supplier_id', 'admin_id', 'created_at', 'updated_at'    
     ];
 
     public function  scopeSelection($query){
         return $query -> select(
-            'id', 'contract_no', 'date_order', 'date_arrive', 'payment_way', 'supplier_id', 'admin_id', 'created_at', 'updated_at'    
+            'id', 'contract_no', 'date_order', 'status', 'date_arrive', 'payment_way', 'supplier_id', 'admin_id', 'created_at', 'updated_at'    
         );
     }
 }
