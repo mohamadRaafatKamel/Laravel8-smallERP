@@ -1,13 +1,8 @@
 @extends('layouts.admin')
-@section('title','تعديل')
-@section('supplier_view','')
+@section('title',__('Transfer Company'))
+@section('transfer_cr','')
 @section('content')
-<?php 
-if(! $permissoin = \App\Models\Role::havePremission(['supplier_idt']))
-    $readonly="readonly";
-else 
-    $readonly="";
-?>
+
     <div class="app-content content">
         <div class="content-wrapper">
             <div class="content-header row">
@@ -15,11 +10,11 @@ else
                     <div class="row breadcrumbs-top">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{ __('Home') }} </a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">الرئيسية </a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{route('admin.supplier')}}">  تخصص </a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.transfer')}}">  {{ __('Transfer Company') }} </a>
                                 </li>
-                                <li class="breadcrumb-item active">تعديل
+                                <li class="breadcrumb-item active">إضافة  
                                 </li>
                             </ol>
                         </div>
@@ -33,7 +28,7 @@ else
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title" id="basic-layout-form">تعديل</h4>
+                                    <h4 class="card-title" id="basic-layout-form"> إضافة   </h4>
                                     <a class="heading-elements-toggle"><i
                                             class="la la-ellipsis-v font-medium-3"></i></a>
                                     <div class="heading-elements">
@@ -49,19 +44,19 @@ else
                                 @include('admin.include.alerts.errors')
                                 <div class="card-content collapse show">
                                     <div class="card-body">
-                                        @if ($permissoin)
-                                        <form class="form" action="{{route('admin.supplier.update',$datas -> id)}}" method="POST"
+                                        <form class="form" action="{{route('admin.transfer.store')}}" method="POST"
                                               enctype="multipart/form-data">
                                             @csrf
-                                        @endif
+
                                             <div class="form-body">
-                                                <h4 class="form-section"><i class="ft-home"></i> البيانات  </h4>
+                                                <h4 class="form-section"><i class="ft-home"></i> البيانات   </h4>
+
                                                 <div class="row">
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="projectinput1"> الاسم  </label>
-                                                            <input type="text" value="{{ $datas -> name }}" id="name"
+                                                            <input type="text" value="" id="name"
                                                                    class="form-control" required
                                                                    placeholder="الاسم "
                                                                    name="name">
@@ -74,8 +69,8 @@ else
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="projectinput1"> {{ __('Phone') }}  1</label>
-                                                            <input type="text" value="{{ $datas -> photo1 }}" id="photo1"
-                                                                   class="form-control" {{ $readonly }}
+                                                            <input type="text" value="" id="photo1"
+                                                                   class="form-control" 
                                                                    placeholder="{{ __('Phone') }}  1 "
                                                                    name="photo1">
                                                             @error('photo1')
@@ -87,8 +82,8 @@ else
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="projectinput1"> {{ __('Phone') }}  2</label>
-                                                            <input type="text" value="{{ $datas -> photo2 }}" id="photo2"
-                                                                   class="form-control" {{ $readonly }}
+                                                            <input type="text" value="" id="photo2"
+                                                                   class="form-control" 
                                                                    placeholder="{{ __('Phone') }} 2 "
                                                                    name="photo2">
                                                             @error('photo2')
@@ -100,8 +95,8 @@ else
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="projectinput1"> {{ __('Address') }}  </label>
-                                                            <input type="text" value="{{ $datas -> address }}" id="address"
-                                                                   class="form-control" {{ $readonly }}
+                                                            <input type="text" value="" id="address"
+                                                                   class="form-control"
                                                                    placeholder="{{ __('Address') }}"
                                                                    name="address">
                                                             @error('address')
@@ -113,8 +108,8 @@ else
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="opening_balance"> {{ __('Opening Balance') }}  </label>
-                                                            <input type="number" step=".01" value="{{ $datas -> opening_balance }}" 
-                                                                    id="opening_balance" class="form-control" {{ $readonly }}
+                                                            <input type="number" step=".01" value="" id="opening_balance"
+                                                                   class="form-control" 
                                                                    placeholder="{{ __('Opening Balance') }} "
                                                                    name="opening_balance">
                                                             @error('opening_balance')
@@ -122,21 +117,16 @@ else
                                                             @enderror
                                                         </div>
                                                     </div>
-                                                    
-
-
-
+                      
                                                 </div>
 
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group mt-1">
-                                                            <input type="checkbox"  value="0" name="status" {{ $readonly }}
+                                                            <input type="checkbox"  value="0" name="status"
                                                                    id="switcheryColor4"
                                                                    class="switchery" data-color="success"
-
-                                                                   @if($datas -> status  == 0 ) checked @endif
-                                                            />
+                                                                   checked/>
                                                             <label for="switcheryColor4"
                                                                    class="card-title ml-1">الحالة </label>
 
@@ -146,20 +136,24 @@ else
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
 
-                                            @if ($permissoin)
-                                                <div class="form-actions">
-                                                    <button type="button" class="btn btn-warning mr-1"
-                                                            onclick="history.back();">
-                                                         تراجع
-                                                    </button>
-                                                    <button type="submit" class="btn btn-primary">
-                                                          تحديث
-                                                    </button>
-                                                </div>
-                                            @endif
+
+                                            <div class="form-actions">
+                                                
+                                                <a href="{{ route('admin.transfer') }}" class="btn btn-warning">
+                                                     تراجع
+                                                </a>
+                                                
+                                                <button type="submit" class="btn btn-primary" name="btn" value="saveAndNew">
+                                                     حفظ و جديد
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">
+                                                     حفظ
+                                                </button>
+
+                                                
+                                            </div>
                                         </form>
                                     </div>
                                 </div>

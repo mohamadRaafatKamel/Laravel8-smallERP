@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 @section('title','تعديل')
-@section('supplier_view','')
+@section('stock_view','')
 @section('content')
 <?php 
-if(! $permissoin = \App\Models\Role::havePremission(['supplier_idt']))
+if(! $permissoin = \App\Models\Role::havePremission(['stock_idt']))
     $readonly="readonly";
 else 
     $readonly="";
@@ -17,7 +17,7 @@ else
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{ __('Home') }} </a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{route('admin.supplier')}}">  تخصص </a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.stock')}}">  تخصص </a>
                                 </li>
                                 <li class="breadcrumb-item active">تعديل
                                 </li>
@@ -50,7 +50,7 @@ else
                                 <div class="card-content collapse show">
                                     <div class="card-body">
                                         @if ($permissoin)
-                                        <form class="form" action="{{route('admin.supplier.update',$datas -> id)}}" method="POST"
+                                        <form class="form" action="{{route('admin.stock.update',$datas -> id)}}" method="POST"
                                               enctype="multipart/form-data">
                                             @csrf
                                         @endif
@@ -71,31 +71,7 @@ else
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="projectinput1"> {{ __('Phone') }}  1</label>
-                                                            <input type="text" value="{{ $datas -> photo1 }}" id="photo1"
-                                                                   class="form-control" {{ $readonly }}
-                                                                   placeholder="{{ __('Phone') }}  1 "
-                                                                   name="photo1">
-                                                            @error('photo1')
-                                                            <span class="text-danger">{{$message}}</span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="projectinput1"> {{ __('Phone') }}  2</label>
-                                                            <input type="text" value="{{ $datas -> photo2 }}" id="photo2"
-                                                                   class="form-control" {{ $readonly }}
-                                                                   placeholder="{{ __('Phone') }} 2 "
-                                                                   name="photo2">
-                                                            @error('photo2')
-                                                            <span class="text-danger">{{$message}}</span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
+                                                    
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -109,21 +85,6 @@ else
                                                             @enderror
                                                         </div>
                                                     </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="opening_balance"> {{ __('Opening Balance') }}  </label>
-                                                            <input type="number" step=".01" value="{{ $datas -> opening_balance }}" 
-                                                                    id="opening_balance" class="form-control" {{ $readonly }}
-                                                                   placeholder="{{ __('Opening Balance') }} "
-                                                                   name="opening_balance">
-                                                            @error('opening_balance')
-                                                            <span class="text-danger">{{$message}}</span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    
-
 
 
                                                 </div>

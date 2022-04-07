@@ -20,6 +20,7 @@ class CreateTransferCompsTable extends Migration
             $table->string('phone1')->nullable();
             $table->string('phone2')->nullable();
             $table->unsignedBigInteger('admin_id');
+            $table->double('opening_balance',8,2)->nullable();
             $table->foreign('admin_id')->references('id')->on('admin')->onDelete('cascade');
             $table->integer('status')->default(0);
             $table->timestamps();

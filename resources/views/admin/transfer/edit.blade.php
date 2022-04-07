@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 @section('title','تعديل')
-@section('supplier_view','')
+@section('transfer_view','')
 @section('content')
 <?php 
-if(! $permissoin = \App\Models\Role::havePremission(['supplier_idt']))
+if(! $permissoin = \App\Models\Role::havePremission(['transfer_idt']))
     $readonly="readonly";
 else 
     $readonly="";
@@ -17,7 +17,7 @@ else
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{ __('Home') }} </a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{route('admin.supplier')}}">  تخصص </a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.transfer')}}">  تخصص </a>
                                 </li>
                                 <li class="breadcrumb-item active">تعديل
                                 </li>
@@ -50,7 +50,7 @@ else
                                 <div class="card-content collapse show">
                                     <div class="card-body">
                                         @if ($permissoin)
-                                        <form class="form" action="{{route('admin.supplier.update',$datas -> id)}}" method="POST"
+                                        <form class="form" action="{{route('admin.transfer.update',$datas -> id)}}" method="POST"
                                               enctype="multipart/form-data">
                                             @csrf
                                         @endif

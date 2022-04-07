@@ -46,6 +46,58 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
     });
     ##################### End Supplier ########################
 
+    ##################### Stock ############################
+    Route::group(['prefix'=>'stock'],function (){
+        Route::get('/','StockController@index')->name('admin.stock');
+        Route::get('create','StockController@create')->name('admin.stock.create');
+        Route::post('store','StockController@store')->name('admin.stock.store');
+
+        Route::get('edit/{id}','StockController@edit')->name('admin.stock.edit');
+        Route::post('update/{id}','StockController@update')->name('admin.stock.update');
+
+        Route::get('delete/{id}','StockController@destroy') -> name('admin.stock.delete');
+    });
+    ##################### End Stock ########################
+
+    ##################### Transfer ############################
+    Route::group(['prefix'=>'transfer'],function (){
+        Route::get('/','TransferController@index')->name('admin.transfer');
+        Route::get('create','TransferController@create')->name('admin.transfer.create');
+        Route::post('store','TransferController@store')->name('admin.transfer.store');
+
+        Route::get('edit/{id}','TransferController@edit')->name('admin.transfer.edit');
+        Route::post('update/{id}','TransferController@update')->name('admin.transfer.update');
+
+        Route::get('delete/{id}','TransferController@destroy') -> name('admin.transfer.delete');
+    });
+    ##################### End Transfer ########################
+
+    ##################### Clearance ############################
+    Route::group(['prefix'=>'clearance'],function (){
+        Route::get('/','ClearanceController@index')->name('admin.clearance');
+        Route::get('create','ClearanceController@create')->name('admin.clearance.create');
+        Route::post('store','ClearanceController@store')->name('admin.clearance.store');
+
+        Route::get('edit/{id}','ClearanceController@edit')->name('admin.clearance.edit');
+        Route::post('update/{id}','ClearanceController@update')->name('admin.clearance.update');
+
+        Route::get('delete/{id}','ClearanceController@destroy') -> name('admin.clearance.delete');
+    });
+    ##################### End Clearance ########################
+
+    ##################### Employ ############################
+    Route::group(['prefix'=>'employ'],function (){
+        Route::get('/','EmployController@index')->name('admin.employ');
+        Route::get('create','EmployController@create')->name('admin.employ.create');
+        Route::post('store','EmployController@store')->name('admin.employ.store');
+
+        Route::get('edit/{id}','EmployController@edit')->name('admin.employ.edit');
+        Route::post('update/{id}','EmployController@update')->name('admin.employ.update');
+
+        Route::get('delete/{id}','EmployController@destroy') -> name('admin.employ.delete');
+    });
+    ##################### End Employ ########################
+
 /*
     ##################### MedicalType ############################
     Route::group(['prefix'=>'medicaltype'],function (){

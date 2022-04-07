@@ -300,6 +300,102 @@
                 </li>
             @endif 
 
+            @if(\App\Models\Role::havePremission(['stock_view','stock_cr','stock_idt']))
+                <li class="nav-item">
+                    <a href=""><i class="la la-undo"></i>
+                        <span class="menu-title" data-i18n="nav.dash.main"> {{ __('Stock') }} </span>
+                    </a>
+                    <ul class="menu-content">
+                        @if(\App\Models\Role::havePremission(['stock_view','stock_idt']))
+                        <li
+                        @if(View::hasSection('stock_view')) class="active" @endif
+                        ><a class="menu-item" href="{{route('admin.stock')}}"
+                            data-i18n="nav.dash.ecommerce"> عرض الكل </a>
+                        </li>
+                        @endif
+                        @if(\App\Models\Role::havePremission(['stock_cr']))
+                            <li
+                            @if(View::hasSection('stock_cr')) class="active" @endif
+                            ><a class="menu-item" href="{{route('admin.stock.create')}}" data-i18n="nav.dash.crypto">
+                                    أضافه جديد </a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
+            @endif 
+
+            @if(\App\Models\Role::havePremission(['transfer_view','transfer_cr','transfer_idt']))
+                <li class="nav-item">
+                    <a href=""><i class="la la-undo"></i>
+                        <span class="menu-title" data-i18n="nav.dash.main"> {{ __('Transfer Company') }} </span>
+                    </a>
+                    <ul class="menu-content">
+                        @if(\App\Models\Role::havePremission(['transfer_view','transfer_idt']))
+                        <li
+                        @if(View::hasSection('transfer_view')) class="active" @endif
+                        ><a class="menu-item" href="{{route('admin.transfer')}}"
+                            data-i18n="nav.dash.ecommerce"> عرض الكل </a>
+                        </li>
+                        @endif
+                        @if(\App\Models\Role::havePremission(['transfer_cr']))
+                            <li
+                            @if(View::hasSection('transfer_cr')) class="active" @endif
+                            ><a class="menu-item" href="{{route('admin.transfer.create')}}" data-i18n="nav.dash.crypto">
+                                    أضافه جديد </a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
+            @endif 
+
+            @if(\App\Models\Role::havePremission(['clearance_view','clearance_cr','clearance_idt']))
+                <li class="nav-item">
+                    <a href=""><i class="la la-undo"></i>
+                        <span class="menu-title" data-i18n="nav.dash.main"> {{ __('Clearance Company') }} </span>
+                    </a>
+                    <ul class="menu-content">
+                        @if(\App\Models\Role::havePremission(['clearance_view','clearance_idt']))
+                        <li
+                        @if(View::hasSection('clearance_view')) class="active" @endif
+                        ><a class="menu-item" href="{{route('admin.clearance')}}"
+                            data-i18n="nav.dash.ecommerce"> عرض الكل </a>
+                        </li>
+                        @endif
+                        @if(\App\Models\Role::havePremission(['clearance_cr']))
+                            <li
+                            @if(View::hasSection('clearance_cr')) class="active" @endif
+                            ><a class="menu-item" href="{{route('admin.clearance.create')}}" data-i18n="nav.dash.crypto">
+                                    أضافه جديد </a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
+            @endif 
+
+            @if(\App\Models\Role::havePremission(['employ_view','employ_cr','employ_idt']))
+                <li class="nav-item">
+                    <a href=""><i class="la la-undo"></i>
+                        <span class="menu-title" data-i18n="nav.dash.main"> {{ __('Employ') }} </span>
+                    </a>
+                    <ul class="menu-content">
+                        @if(\App\Models\Role::havePremission(['employ_view','employ_idt']))
+                        <li
+                        @if(View::hasSection('employ_view')) class="active" @endif
+                        ><a class="menu-item" href="{{route('admin.employ')}}"
+                            data-i18n="nav.dash.ecommerce"> عرض الكل </a>
+                        </li>
+                        @endif
+                        @if(\App\Models\Role::havePremission(['employ_cr']))
+                            <li
+                            @if(View::hasSection('employ_cr')) class="active" @endif
+                            ><a class="menu-item" href="{{route('admin.employ.create')}}" data-i18n="nav.dash.crypto">
+                                    أضافه جديد </a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
+            @endif 
+
            
             @if(\App\Models\Role::havePremission(['admin_view','admin_cr','admin_idt']))
             <li class="nav-item">
