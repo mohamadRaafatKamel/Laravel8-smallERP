@@ -68,7 +68,7 @@
 
                                                 </div>
                                                 <div class="row">
-                                                    
+
                                                     <div class="col-md-6">
                                                         <div class="form-group mt-1">
                                                             <input type="checkbox"  value="1" name="exp_have"
@@ -81,6 +81,9 @@
                                                             @enderror
                                                         </div>
                                                     </div>
+
+                                                </div>
+                                                <div class="row">
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -123,11 +126,8 @@
                                                      تراجع
                                                 </a>
                                                 
-                                                <button type="submit" class="btn btn-primary" name="btn" value="saveAndNew">
-                                                     حفظ و جديد
-                                                </button>
                                                 <button type="submit" class="btn btn-primary">
-                                                     حفظ
+                                                     {{ __('Next') }}
                                                 </button>
 
                                                 

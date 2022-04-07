@@ -116,8 +116,7 @@ else
                                             @if ($permissoin)
                                                 <div class="form-actions">
                                                     
-                                                    <a href="{{ route('admin.pricelist') }}" class="btn btn-warning">
-                                                         تراجع
+                                                    <a href="{{ route('admin.pricelist') }}" class="btn btn-warning">تراجع
                                                     </a>
                                                     <button type="submit" class="btn btn-primary">
                                                           {{ __('Save') }}

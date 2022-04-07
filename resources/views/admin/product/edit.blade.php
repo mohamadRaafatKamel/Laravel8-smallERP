@@ -17,7 +17,7 @@ else
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{ __('Home') }} </a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{route('admin.employ')}}">  تخصص </a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.employ')}}">  {{ __('Employ') }} </a>
                                 </li>
                                 <li class="breadcrumb-item active">تعديل
                                 </li>
@@ -124,9 +124,7 @@ else
                                                     </div>
                                                 </div>
 
-                                            </div>
-
-                                            @if ($permissoin)
+                                                @if ($permissoin)
                                                 <div class="form-actions">
                                                     <button type="button" class="btn btn-warning mr-1"
                                                             onclick="history.back();">
@@ -137,6 +135,85 @@ else
                                                     </button>
                                                 </div>
                                             @endif
+
+
+
+                                                <h4 class="form-section"><i class="ft-home"></i> شراء </h4>
+
+
+                                            <div class="row">
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="category"> الاقسام  </label>
+                                                        <input type="text" id="category"
+                                                               class="form-control" 
+                                                               placeholder="الاقسام ">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="amount"> {{ __('Value') }}  </label>
+                                                        <input type="number" step="0.01" value="" id="amount" 
+                                                            class="form-control"  max="6"
+                                                            placeholder="{{ __('0.00') }}">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="unit_id"> {{ __('Unit') }}  </label>
+                                                        <select class="select2 form-control" id="unit_id">
+                                                            <option value="">-- {{ __('Unit') }} --</option>
+                                                            @foreach($units as $unit)
+                                                                <option value="{{ $unit->id }}">
+                                                                    {{ $unit->name}}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-1">
+                                                    <button type="button" style="margin-top: 25px;" class="btn btn-primary" id="btnBuy">
+                                                        {{ __('New') }}
+                                                   </button>
+                                                </div>
+                                            </div>
+                                          
+                                            <div class="row">
+                                                <table class="table table-striped table-bordered" id="tblService">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>الاقسام</th>
+                                                            <th>{{ __('Value') }}</th>
+                                                            <th>{{ __('Unit') }}</th>
+                                                            <th> </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    @if (isset($prbuys))
+                                                    @foreach ($prbuys as $prbuy)
+                                                        <tr>
+                                                            <td>{{ $prbuy->category }}</td>
+                                                            <td>{{ $prbuy->amount  }}</td>
+                                                            <td>{{ $prbuy->unit_id }}</td>
+                                                            <td>
+                                                                <a href="{{route('admin.product.buy.delete',[$datas->id, $prbuy->id])}}" class="btn btn-danger" ><i class="ft-trash-2"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                    @endif
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        {{-- End Add Servese --}}
+
+
+                                            </div>
+
+                                           
                                         </form>
                                     </div>
                                 </div>
@@ -149,4 +226,62 @@ else
         </div>
     </div>
 
+@endsection
+
+@section('script')
+    <script>
+        jQuery(document).ready(function ($) {
+
+           
+            // add Service
+            $('#btnBuy').click(function () {
+
+            let unit_id = $("#unit_id option:selected").val();
+            let unit_id_text = $("#unit_id option:selected").text();
+            let amount = $("#amount").val();
+            let category = $("#category").val();
+            let product_id = {{ $datas->id }}
+            let _token = '{{ csrf_token() }}';
+
+            if(unit_id == ""){
+                alert("يجب اضافه الوحده");
+            }else if(amount == ""){
+                alert("اضافه الكميه");
+            }else if(category == ""){
+                alert("يجب اضافه القسم");
+            }else if(amount.length  > 9 ){
+                alert("الكميه لا يجب ان تتجاوز 6 ارقام صحيحه");
+            }else{
+                $.ajax({
+                    url: "{{ route('ajax.product.set.buy') }}",
+                    type: 'POST',
+                    dataType: 'json',
+                    data:{
+                        unit_id :unit_id,
+                        amount :amount,
+                        category :category,
+                        product_id :product_id,
+                        _token: _token
+                    },
+                    success: function (response) {
+                        $('#unit_id').val('').change();
+                        $('#amount').val(0);
+                        $('#category').val('');
+                        let url = '{{route("admin.product.buy.delete",[ $datas->id,":srvid"])}}';
+                        url = url.replace(':srvid', response.srvid);
+                        $('#tblService tr:last').after('<tr><td>'+category+'</td><td>'+amount+'</td><td>'+unit_id_text+'</td><td>'+
+                            '<a href="'+url+'" class="btn btn-danger" ><i class="ft-trash-2"></i></a>'+'</td></tr>');
+                        
+                        // console.log(response.srvid);
+
+                    }
+                    // error: function (xhr, ajaxOptions, thrownError) {
+                    //     // console.log(xhr);
+                    // }
+                });
+            }
+            });
+
+        });
+    </script>
 @endsection

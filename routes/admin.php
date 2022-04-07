@@ -108,12 +108,9 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
         Route::post('update/{id}','ProductController@update')->name('admin.product.update');
 
         // ajax
-        // Route::post('/setroll', 'ProductController@setRoll')->name('ajax.pricelist.set.roll');
-        // Route::post('/setservice', 'ProductController@setService')->name('ajax.pricelist.set.service');
-        // // Route::post('/setpackage', 'ProductController@setPackage')->name('ajax.pricelist.set.package');
+        Route::post('/setbuy', 'ProductController@setBuy')->name('ajax.product.set.buy');
 
-        // Route::get('delete/{plid}/{id}','ProductController@destroyRoll') -> name('admin.pricelist.roll.delete');
-        // Route::get('deletesrv/{plid}/{id}','ProductController@destroyService') -> name('admin.pricelist.service.delete');
+        Route::get('deletesrv/{prid}/{id}','ProductController@destroyProductBuy') -> name('admin.product.buy.delete');
     });
     ##################### End Product ########################
 

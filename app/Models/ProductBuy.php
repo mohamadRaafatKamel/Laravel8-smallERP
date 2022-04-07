@@ -20,8 +20,17 @@ class ProductBuy extends Model
     ];
 
     public function  scopeSelection($query){
+        $query -> where('status','!=','99');
         return $query -> select(
             'id', 'product_id', 'category', 'amount', 'status', 'unit_id', 'admin_id', 'created_at', 'updated_at'    
         );
+    }
+
+    public function scopeActive($query){
+        return $query -> where('status',0);
+    }
+
+    public function getActive(){
+        return   $this -> status == 0 ? 'مفعل'  : 'غير مفعل';
     }
 }
