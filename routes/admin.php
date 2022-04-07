@@ -98,6 +98,25 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
     });
     ##################### End Employ ########################
 
+    ##################### Product ############################
+    Route::group(['prefix'=>'product'],function (){
+        Route::get('/','ProductController@index')->name('admin.product');
+        Route::get('create','ProductController@create')->name('admin.product.create');
+        Route::post('store','ProductController@store')->name('admin.product.store');
+
+        Route::get('edit/{id}','ProductController@edit')->name('admin.product.edit');
+        Route::post('update/{id}','ProductController@update')->name('admin.product.update');
+
+        // ajax
+        // Route::post('/setroll', 'ProductController@setRoll')->name('ajax.pricelist.set.roll');
+        // Route::post('/setservice', 'ProductController@setService')->name('ajax.pricelist.set.service');
+        // // Route::post('/setpackage', 'ProductController@setPackage')->name('ajax.pricelist.set.package');
+
+        // Route::get('delete/{plid}/{id}','ProductController@destroyRoll') -> name('admin.pricelist.roll.delete');
+        // Route::get('deletesrv/{plid}/{id}','ProductController@destroyService') -> name('admin.pricelist.service.delete');
+    });
+    ##################### End Product ########################
+
 /*
     ##################### MedicalType ############################
     Route::group(['prefix'=>'medicaltype'],function (){
@@ -113,27 +132,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
     ##################### End MedicalType ########################
 
 
-    ##################### PriceList ############################
-    Route::group(['prefix'=>'pricelist'],function (){
-        Route::get('/','PriceListController@index')->name('admin.pricelist');
-        Route::get('create','PriceListController@create')->name('admin.pricelist.create');
-        Route::post('store','PriceListController@store')->name('admin.pricelist.store');
-
-        Route::get('import','PriceListController@import')->name('admin.pricelist.import');
-        Route::post('storeimport','PriceListController@importstore')->name('admin.pricelist.storeimport');
-
-        Route::get('edit/{id}','PriceListController@edit')->name('admin.pricelist.edit');
-        Route::post('update/{id}','PriceListController@update')->name('admin.pricelist.update');
-
-        // ajax
-        Route::post('/setroll', 'PriceListController@setRoll')->name('ajax.pricelist.set.roll');
-        Route::post('/setservice', 'PriceListController@setService')->name('ajax.pricelist.set.service');
-        // Route::post('/setpackage', 'PriceListController@setPackage')->name('ajax.pricelist.set.package');
-
-        Route::get('delete/{plid}/{id}','PriceListController@destroyRoll') -> name('admin.pricelist.roll.delete');
-        Route::get('deletesrv/{plid}/{id}','PriceListController@destroyService') -> name('admin.pricelist.service.delete');
-    });
-    ##################### End PriceList ########################
+    
 
     ##################### Company ############################
     Route::group(['prefix'=>'company'],function (){

@@ -252,6 +252,30 @@
                 </li>
             @endif --}}
 
+            @if(\App\Models\Role::havePremission(['product_view','product_cr','product_idt']))
+                <li class="nav-item">
+                    <a href=""><i class="la la-undo"></i>
+                        <span class="menu-title" data-i18n="nav.dash.main"> {{ __('Product') }} </span>
+                    </a>
+                    <ul class="menu-content">
+                        @if(\App\Models\Role::havePremission(['product_view','product_idt']))
+                        <li
+                        @if(View::hasSection('product_view')) class="active" @endif
+                        ><a class="menu-item" href="{{route('admin.product')}}"
+                            data-i18n="nav.dash.ecommerce"> عرض الكل </a>
+                        </li>
+                        @endif
+                        @if(\App\Models\Role::havePremission(['product_cr']))
+                            <li
+                            @if(View::hasSection('product_cr')) class="active" @endif
+                            ><a class="menu-item" href="{{route('admin.product.create')}}" data-i18n="nav.dash.crypto">
+                                    أضافه جديد </a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
+            @endif 
+
             @if(\App\Models\Role::havePremission(['supplier_view','supplier_cr','supplier_idt']))
                 <li class="nav-item">
                     <a href=""><i class="la la-undo"></i>
