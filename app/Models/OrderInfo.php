@@ -24,4 +24,12 @@ class OrderInfo extends Model
             'id', 'order_id', 'product_id', 'unit_id', 'status', 'amount', 'price', 'admin_id', 'created_at', 'updated_at'    
         );
     }
+
+    public function getUnit(){
+        return Unit::getName($this->unit_id) ;
+    }
+
+    public function getProduct(){
+        return Product::getName($this->product_id) ;
+    }
 }

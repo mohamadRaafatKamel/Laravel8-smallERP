@@ -42,4 +42,13 @@ class Product extends Model
         }
         return "_";
     }
+
+    public static function getName($id)
+    {
+        $data = Product::select()->find($id);
+        if(isset($data->id)){
+            return $data['name'];
+        }
+        return "_";
+    }
 }

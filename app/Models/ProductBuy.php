@@ -31,6 +31,11 @@ class ProductBuy extends Model
     }
 
     public function getActive(){
-        return   $this -> status == 0 ? 'مفعل'  : 'غير مفعل';
+        return $this -> status == 0 ? 'مفعل'  : 'غير مفعل';
     }
+
+    public function getUnit(){
+        return Unit::getName($this->unit_id) ;
+    }
+
 }

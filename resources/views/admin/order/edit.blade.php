@@ -145,7 +145,7 @@ else
 
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label for="category"> المواصفات  </label>
+                                                        <label for="category"> الاقسام  </label>
                                                         <input type="text" id="category"
                                                                class="form-control" 
                                                                placeholder="الاقسام ">
@@ -186,7 +186,7 @@ else
                                                 <table class="table table-striped table-bordered" id="tblService">
                                                     <thead>
                                                         <tr>
-                                                            <th>المواصفات</th>
+                                                            <th>الاقسام</th>
                                                             <th>{{ __('Value') }}</th>
                                                             <th>{{ __('Unit') }}</th>
                                                             <th> </th>
@@ -208,12 +208,8 @@ else
                                                     </tbody>
                                                 </table>
                                             </div>
-                                        {{-- End Add Servese --}}
-
-
+                                        {{-- End Add Buy --}}
                                             </div>
-
-                                           
                                         </form>
                                     </div>
                                 </div>
@@ -247,6 +243,8 @@ else
                 alert("يجب اضافه الوحده");
             }else if(amount == ""){
                 alert("اضافه الكميه");
+            }else if(category == ""){
+                alert("يجب اضافه القسم");
             }else if(amount.length  > 9 ){
                 alert("الكميه لا يجب ان تتجاوز 6 ارقام صحيحه");
             }else{
@@ -263,7 +261,7 @@ else
                     },
                     success: function (response) {
                         $('#unit_id').val('').change();
-                        $('#amount').val('');
+                        $('#amount').val(0);
                         $('#category').val('');
                         let url = '{{route("admin.product.buy.delete",[ $datas->id,":srvid"])}}';
                         url = url.replace(':srvid', response.srvid);

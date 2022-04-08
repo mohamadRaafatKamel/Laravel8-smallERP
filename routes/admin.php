@@ -114,6 +114,22 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
     });
     ##################### End Product ########################
 
+    ##################### Order ############################
+    Route::group(['prefix'=>'order'],function (){
+        Route::get('/','OrderController@index')->name('admin.order');
+        Route::get('create','OrderController@create')->name('admin.order.create');
+        // Route::post('store','OrderController@store')->name('admin.order.store');
+
+        // Route::get('edit/{id}','OrderController@edit')->name('admin.order.edit');
+        // Route::post('update/{id}','OrderController@update')->name('admin.order.update');
+
+        // ajax
+        // Route::post('/setbuy', 'OrderController@setBuy')->name('ajax.product.set.buy');
+
+        Route::get('deletesrv/{oid}/{id}','OrderController@destroyProductBuy') -> name('admin.order.info.delete');
+    });
+    ##################### End Order ########################
+
 /*
     ##################### MedicalType ############################
     Route::group(['prefix'=>'medicaltype'],function (){
