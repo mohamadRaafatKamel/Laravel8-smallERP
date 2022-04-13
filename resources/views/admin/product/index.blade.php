@@ -53,8 +53,7 @@
                                             <tr>
                                                 <th>ID </th>
                                                 <th>اسم </th>
-                                                <th> {{ __('Have Exp') }}</th>
-                                                
+                                                <th> {{ __('Status') }}</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -65,8 +64,7 @@
                                                     <tr>
                                                         <td>{{$data -> id}}</td>
                                                         <td>{{$data -> name}}</td>
-                                                        <td>{{$data ->getExpHave()}}</td>
-                                                        
+                                                        <td>{{$data ->getActive()}}</td>
                                                         <td>
                                                             {{-- <div class="btn-group" role="group" aria-label="Basic example"> --}}
                                                                  @if(\App\Models\Role::havePremission(['product_idt']))

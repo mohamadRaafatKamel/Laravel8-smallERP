@@ -72,39 +72,7 @@ else
                                                     </div>
 
                                                 </div>
-                                                <div class="row">
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group mt-1">
-                                                            <input type="checkbox"  value="1" name="exp_have"
-                                                                   id="exp_have"
-                                                                   class="switchery" data-color="success"
-                                                                   @if($datas->exp_have  == 1 ) checked @endif/>
-                                                            <label for="exp_have"
-                                                                   class="card-title ml-1">{{ __('Have Exp') }} </label>
-                                                            @error('exp_have')
-                                                            <span class="text-danger">{{$message}}</span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="exp_long"> {{ __('Exp Long') }}  </label>
-                                                            <input type="number" value="{{ $datas -> exp_long }}" id="exp_long"
-                                                                   class="form-control"
-                                                                   placeholder="{{ __('Exp Long') }}"
-                                                                   name="exp_long">
-                                                            @error('exp_long')
-                                                            <span class="text-danger">{{$message}}</span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-
-
-
-                                                </div>
-
+                                               
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group mt-1">
@@ -152,7 +120,7 @@ else
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <div class="form-group">
                                                         <label for="amount"> {{ __('Value') }}  </label>
                                                         <input type="number" step="0.01" value="" id="amount" 
@@ -175,6 +143,21 @@ else
                                                     </div>
                                                 </div>
 
+                                                <div class="col-md-2">
+                                                    <div class="form-group mt-1">
+                                                        <label for="exp_have"
+                                                               class="card-title ml-1">{{ __('Exp') }} </label>
+
+                                                        <input type="checkbox"  value="1" name="exp_have"
+                                                               id="exp_have"
+                                                               class="switchery" data-color="success"
+                                                               @if($datas->exp_have  == 1 ) checked @endif/>
+                                                        @error('exp_have')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
                                                 <div class="col-md-1">
                                                     <button type="button" style="margin-top: 25px;" class="btn btn-primary" id="btnBuy">
                                                         {{ __('New') }}
@@ -189,6 +172,7 @@ else
                                                             <th>المواصفات</th>
                                                             <th>{{ __('Value') }}</th>
                                                             <th>{{ __('Unit') }}</th>
+                                                            <th>{{ __('Have Exp') }}</th>
                                                             <th> </th>
                                                         </tr>
                                                     </thead>
@@ -199,6 +183,7 @@ else
                                                             <td>{{ $prbuy->category }}</td>
                                                             <td>{{ $prbuy->amount  }}</td>
                                                             <td>{{ $prbuy->getUnit() }}</td>
+                                                            <td>{{ $prbuy->getExpHave() }}</td>
                                                             <td>
                                                                 <a href="{{route('admin.product.buy.delete',[$datas->id, $prbuy->id])}}" class="btn btn-danger" ><i class="ft-trash-2"></i></a>
                                                             </td>
@@ -231,17 +216,26 @@ else
 @section('script')
     <script>
         jQuery(document).ready(function ($) {
-
            
             // add Service
             $('#btnBuy').click(function () {
-
+                
             let unit_id = $("#unit_id option:selected").val();
             let unit_id_text = $("#unit_id option:selected").text();
             let amount = $("#amount").val();
             let category = $("#category").val();
-            let product_id = {{ $datas->id }}
+            let exphave = 0;
+            let product_id = {{ $datas->id }};
+            let hv= "{{ __('No') }}";
             let _token = '{{ csrf_token() }}';
+
+            if($('#exp_have').is(':checked')){
+                exphave = 1;
+            }
+
+            if(exphave == 1) hv= "{{ __('Yes') }}";
+
+            // console.log(exphave);
 
             if(unit_id == ""){
                 alert("يجب اضافه الوحده");
@@ -259,15 +253,19 @@ else
                         amount :amount,
                         category :category,
                         product_id :product_id,
+                        exp_have :exphave,
                         _token: _token
                     },
                     success: function (response) {
                         $('#unit_id').val('').change();
                         $('#amount').val('');
                         $('#category').val('');
+                        
+                        
                         let url = '{{route("admin.product.buy.delete",[ $datas->id,":srvid"])}}';
-                        url = url.replace(':srvid', response.srvid);
-                        $('#tblService tr:last').after('<tr><td>'+category+'</td><td>'+amount+'</td><td>'+unit_id_text+'</td><td>'+
+                        url = url.replace(':srvid', response.proid);
+                        $('#tblService tr:last').after('<tr><td>'+category+'</td><td>'+amount+'</td><td>'+unit_id_text
+                            +'</td><td>'+ hv +'</td><td>'+
                             '<a href="'+url+'" class="btn btn-danger" ><i class="ft-trash-2"></i></a>'+'</td></tr>');
                         
                         // console.log(response.srvid);

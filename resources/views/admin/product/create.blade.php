@@ -67,40 +67,7 @@
                                                     </div>
 
                                                 </div>
-                                                <div class="row">
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group mt-1">
-                                                            <input type="checkbox"  value="1" name="exp_have"
-                                                                   id="exp_have"
-                                                                   class="switchery" data-color="success" />
-                                                            <label for="exp_have"
-                                                                   class="card-title ml-1">{{ __('Have Exp') }} </label>
-                                                            @error('exp_have')
-                                                            <span class="text-danger">{{$message}}</span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="row">
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="exp_long"> {{ __('Exp Long') }}  </label>
-                                                            <input type="number" value="" id="exp_long"
-                                                                   class="form-control"
-                                                                   placeholder="{{ __('Exp Long') }}"
-                                                                   name="exp_long">
-                                                            @error('exp_long')
-                                                            <span class="text-danger">{{$message}}</span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-
-                      
-                                                </div>
-
+                                                
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group mt-1">
