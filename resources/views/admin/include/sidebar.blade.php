@@ -6,7 +6,7 @@
                         class="menu-title" data-i18n="nav.add_on_drag_drop.main">{{ __('Home') }} </span></a>
             </li>
 
-            @if(\App\Models\Role::havePremission(['order_view','order_cr','order_idt']))
+            {{-- @if(\App\Models\Role::havePremission(['order_view','order_cr','order_idt']))
                 <li class="nav-item">
                     <a href=""><i class="la la-undo"></i>
                         <span class="menu-title" data-i18n="nav.dash.main"> {{ __('Order') }} </span>
@@ -28,7 +28,7 @@
                         @endif
                     </ul>
                 </li>
-            @endif 
+            @endif  --}}
             
             @if(\App\Models\Role::havePremission(['product_view','product_cr','product_idt']))
                 <li class="nav-item">
