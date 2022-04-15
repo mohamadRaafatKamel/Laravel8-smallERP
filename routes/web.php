@@ -54,7 +54,7 @@ use Illuminate\Support\Facades\Route;
     // Route::any('callback', 'AuthMediaController@callbackFromGoogle')->name('callback');
 // });
 
-Route::redirect('/', 'admin');
+Route::redirect('/', 'admin/');
 
 // Route::group(['prefix' => '{language}' ,'where' => ['language' =>  '(ar|en)' ] ], function () {
     // Route::group(['namespace' => 'App\Http\Controllers\Front'], function () {
