@@ -24,15 +24,21 @@ class OrderController extends Controller
         return view('admin.order.index', compact('datas'));
     }
 
-    public function create()
+    public function create($id = null)
     {
         if(! Role::havePremission(['order_cr']))
             return redirect()->route('admin.dashboard');
 
+        $order = $orderinfos = [];
         $sups = Supplier::selection()->active()->get();
         $pros = Product::selection()->active()->get();
         $units = Unit::selection()->active()->get();
-        return view('admin.order.create',compact('sups','pros','units'));
+        if(isset($id)){
+            $order = Order::selection()->find($id);
+            $orderinfos = OrderInfo::selection()->where('order_id',$id)->get();
+        }
+        return view('admin.order.create',
+        compact('order','orderinfos','sups','pros','units'));
     }
 
     // AJAX

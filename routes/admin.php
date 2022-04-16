@@ -117,7 +117,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
     ##################### Order ############################
     Route::group(['prefix'=>'order'],function (){
         Route::get('/','OrderController@index')->name('admin.order');
-        Route::get('create','OrderController@create')->name('admin.order.create');
+        Route::get('view/{id?}','OrderController@create')->name('admin.order.create');
         // Route::post('store','OrderController@store')->name('admin.order.store');
 
         // Route::get('edit/{id}','OrderController@edit')->name('admin.order.edit');

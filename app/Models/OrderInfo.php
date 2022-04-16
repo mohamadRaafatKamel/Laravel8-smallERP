@@ -16,12 +16,12 @@ class OrderInfo extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'order_id', 'product_id', 'unit_id', 'status', 'amount', 'price', 'admin_id', 'created_at', 'updated_at'    
+        'id', 'order_id', 'product_id', 'product_cat', 'unit_id', 'status', 'amount', 'price', 'admin_id', 'created_at', 'updated_at'    
     ];
 
     public function  scopeSelection($query){
         return $query -> select(
-            'id', 'order_id', 'product_id', 'unit_id', 'status', 'amount', 'price', 'admin_id', 'created_at', 'updated_at'    
+            'id', 'order_id', 'product_id', 'product_cat', 'unit_id', 'status', 'amount', 'price', 'admin_id', 'created_at', 'updated_at'    
         );
     }
 

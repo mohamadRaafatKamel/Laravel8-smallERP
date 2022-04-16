@@ -59,7 +59,10 @@
                                                             <select class="select2 form-control" id="supplier_id">
                                                                 <option value="">-- {{ __('Supplier') }} --</option>
                                                                 @foreach($sups as $sup)
-                                                                    <option value="{{ $sup->id }}">
+                                                                    <option value="{{ $sup->id }}"
+                                                                        @if (isset($order->supplier_id))
+                                                                            @if ($order->supplier_id == $sup->id) selected @endif
+                                                                        @endif>
                                                                         {{ $sup->name}}
                                                                     </option>
                                                                 @endforeach
@@ -71,8 +74,9 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="contract_no"> {{ __('Contract No.') }}  </label>
-                                                            <input type="number" value="" id="contract_no"
+                                                            <input type="number" id="contract_no"
                                                                    class="form-control"
+                                                                   @if (isset($order->contract_no)) value="{{ $order->contract_no }}" @endif
                                                                    placeholder="{{ __('Contract No.') }}">
                                                             @error('contract_no')
                                                             <span class="text-danger">{{$message}}</span>
@@ -83,8 +87,9 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="date_order"> {{ __('Order Date') }}  </label>
-                                                            <input type="date" value="" id="date_order"
+                                                            <input type="date" id="date_order"
                                                                    class="form-control" required
+                                                                   @if (isset($order->date_order)) value="{{ $order->date_order }}" @endif
                                                                    placeholder="{{ __('Order Date') }} ">
                                                             @error('date_order')
                                                             <span class="text-danger">{{$message}}</span>
@@ -95,8 +100,9 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="date_arrive"> {{ __('Arrive Date') }}  </label>
-                                                            <input type="date" value="" id="date_arrive"
+                                                            <input type="date" id="date_arrive"
                                                                    class="form-control" required
+                                                                   @if (isset($order->date_arrive)) value="{{ $order->date_arrive }}" @endif
                                                                    placeholder="{{ __('Arrive Date') }} ">
                                                             @error('date_arrive')
                                                             <span class="text-danger">{{$message}}</span>
@@ -109,8 +115,15 @@
                                                             <label for="payment_way"> {{ __('Payment Way') }} </label>
                                                             <select id="payment_way" required class="form-control">
                                                                 <option value="" >-- {{ __('Payment Way') }}  --</option>
-                                                                <option value="1" >{{ __('Cash') }}</option>
-                                                                <option value="2" >{{ __('Pay Later') }}</option>
+                                                                @if (isset($order->payment_way))
+                                                                    <option value="1" @if ($order->payment_way == '1') selected @endif>
+                                                                        {{ __('Cash') }}</option>
+                                                                    <option value="2" @if ($order->payment_way == '2') selected @endif>
+                                                                        {{ __('Pay Later') }}</option>
+                                                                @else
+                                                                    <option value="1" >{{ __('Cash') }}</option>
+                                                                    <option value="2" >{{ __('Pay Later') }}</option>
+                                                                @endif
                                                             </select>
                                                             @error('payment_way')
                                                             <span class="text-danger">{{$message}}</span>
@@ -192,19 +205,19 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                        {{-- @if (isset($prbuys))
-                                                        @foreach ($prbuys as $prbuy)
-                                                            <tr>
-                                                                <td>{{ $prbuy->getProduct() }}</td>
-                                                                <td>{{ $prbuy->amount }}</td>
-                                                                <td>{{ $prbuy->getUnit() }}</td>
-                                                                <td>{{ $prbuy->price }}</td>
-                                                                <td>
-                                                                    <a href="{{route('admin.order.info.delete',[$datas->id, $prbuy->id])}}" class="btn btn-danger" ><i class="ft-trash-2"></i></a>
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                        @endif --}}
+                                                        @if (isset($orderinfos))
+                                                            @foreach ($orderinfos as $orderinfo)
+                                                                <tr>
+                                                                    <td>{{ $orderinfo->getProduct() }}</td>
+                                                                    <td>{{ $orderinfo->amount }}</td>
+                                                                    <td>{{ $orderinfo->getUnit() }}</td>
+                                                                    <td>{{ $orderinfo->price }}</td>
+                                                                    <td>
+                                                                        {{-- <a href="{{route('admin.order.info.delete',[$datas->id, $prbuy->id])}}" class="btn btn-danger" ><i class="ft-trash-2"></i></a> --}}
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        @endif
                                                         </tbody>
                                                     </table>
                                                 </div>
