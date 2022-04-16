@@ -52,7 +52,7 @@
                                                 <h4 class="form-section"><i class="ft-home"></i> البيانات   </h4>
 
                                                 <div class="row">
-
+                                                    
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="supplier_id"> {{ __('Supplier') }}  </label>
@@ -64,6 +64,7 @@
                                                                     </option>
                                                                 @endforeach
                                                             </select>
+                                                            <input type="hidden" id="order"/>
                                                         </div>
                                                     </div>
 
@@ -243,51 +244,115 @@
     <script>
         jQuery(document).ready(function ($) {
 
+            // add order
+            function addOrder() {
+
+
+                console.log('in');
+
+                let supplier_id = $("#supplier_id option:selected").val();
+                let supplier_id_text = $("#supplier_id option:selected").text();
+                let contract_no = $("#contract_no").val();
+                let date_order = $("#date_order").val();
+                let date_arrive = $("#date_arrive").val();
+                let payment_way = $("#payment_way option:selected").val();
+                let payment_way_text = $("#payment_way option:selected").text();
+                
+                let _token = '{{ csrf_token() }}';
+
+                if(supplier_id == ""){
+                    alert("يجب اضافه المعامل");
+                }else if(date_order == ""){
+                    alert("اضافه تاريخ الطلب");
+                }else if(date_arrive == ""){
+                    alert("اضافه تاريخ الوصول");
+                }else{
+                    $.ajax({
+                        url: "{{ route('ajax.order.set') }}",
+                        type: 'POST',
+                        dataType: 'json',
+                        data:{
+                            supplier_id :supplier_id,
+                            contract_no :contract_no,
+                            date_order :date_order,
+                            date_arrive :date_arrive,
+                            payment_way :payment_way,
+                            _token: _token
+                        },
+                        success: function (response) {
+                            $('#order').val(response.orderid);
+                            return response.orderid;
+                        }
+                        // error: function (xhr, ajaxOptions, thrownError) {
+                        //     // console.log(xhr);
+                        // }
+                    });
+                }
+
+
+                return "";
+            }
             // add order info
             $('#btnOrdInfo').click(function () {
 
-            let unit_id = $("#unit_id option:selected").val();
-            let unit_id_text = $("#unit_id option:selected").text();
-            let amount = $("#amount").val();
-            let category = $("#category").val();
-            let product_id = {{ $datas->id }}
-            let _token = '{{ csrf_token() }}';
+                let order_id = $("#order").val();
+                if(order_id == ''){
+                    order_id = addOrder();
+                    if(order_id == '') 
+                        return false;
+                }
+                
+                let product_id = $("#product_id option:selected").val();
+                let product_id_text = $("#product_id option:selected").text();
+                let amount = $("#amount").val();
+                let unit_id = $("#unit_id option:selected").val();
+                let unit_id_text = $("#unit_id option:selected").text();
+                let price = $("#price").val();
+                
+                let _token = '{{ csrf_token() }}';
 
-            if(unit_id == ""){
-                alert("يجب اضافه الوحده");
-            }else if(amount == ""){
-                alert("اضافه الكميه");
-            }else if(category == ""){
-                alert("يجب اضافه القسم");
-            }else if(amount.length  > 9 ){
-                alert("الكميه لا يجب ان تتجاوز 6 ارقام صحيحه");
-            }else{
-                $.ajax({
-                    url: "{{ route('ajax.product.set.buy') }}",
-                    type: 'POST',
-                    dataType: 'json',
-                    data:{
-                        unit_id :unit_id,
-                        amount :amount,
-                        category :category,
-                        product_id :product_id,
-                        _token: _token
-                    },
-                    success: function (response) {
-                        $('#unit_id').val('').change();
-                        $('#amount').val(0);
-                        $('#category').val('');
-                        let url = '{{route("admin.product.buy.delete",[ $datas->id,":srvid"])}}';
-                        url = url.replace(':srvid', response.srvid);
-                        $('#tblService tr:last').after('<tr><td>'+category+'</td><td>'+amount+'</td><td>'+unit_id_text+'</td><td>'+
-                            '<a href="'+url+'" class="btn btn-danger" ><i class="ft-trash-2"></i></a>'+'</td></tr>');
-                        
-                    }
-                    // error: function (xhr, ajaxOptions, thrownError) {
-                    //     // console.log(xhr);
-                    // }
-                });
-            }
+                if(unit_id == ""){
+                    alert("يجب اضافه الوحده");
+                }else if(amount == ""){
+                    alert("اضافه الكميه");
+                }else if(price == ""){
+                    alert("اضافه السعر");
+                }else if(product_id == ""){
+                    alert("يجب اضافه المنتج");
+                }else if(amount.length  > 9 ){
+                    alert("الكميه لا يجب ان تتجاوز 6 ارقام صحيحه");
+                }else if(price.length  > 9 ){
+                    alert("السعر لا يجب ان تتجاوز 6 ارقام صحيحه");
+                }else{
+                    $.ajax({
+                        url: "{{ route('ajax.order.set.info') }}",
+                        type: 'POST',
+                        dataType: 'json',
+                        data:{
+                            unit_id :unit_id,
+                            amount :amount,
+                            price :price,
+                            product_id :product_id,
+                            order_id :order_id,
+                            _token: _token
+                        },
+                        success: function (response) {
+                            $('#product_id').val('').change();
+                            $('#unit_id').val('').change();
+                            $('#amount').val('');
+                            $('#price').val('');
+                            let url = '{{route("admin.product.buy.delete",[ 5,":srvid"])}}';
+                            url = url.replace(':srvid', response.ordinfoid);
+                            $('#tblService tr:last').after('<tr><td>'+product_id_text+'</td><td>'+amount+'</td><td>'+unit_id_text+
+                                '</td><td>'+price+'</td><td>'+
+                                '<a href="'+url+'" class="btn btn-danger" ><i class="ft-trash-2"></i></a>'+'</td></tr>');
+                            
+                        }
+                        // error: function (xhr, ajaxOptions, thrownError) {
+                        //     // console.log(xhr);
+                        // }
+                    });
+                }
             });
 
         });

@@ -160,7 +160,7 @@ else
 
                                                 <div class="col-md-1">
                                                     <button type="button" style="margin-top: 25px;" class="btn btn-primary" id="btnBuy">
-                                                        {{ __('New') }}
+                                                        {{ __('Add') }}
                                                    </button>
                                                 </div>
                                             </div>

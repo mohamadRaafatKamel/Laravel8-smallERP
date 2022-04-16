@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Log;
 use App\Models\Order;
+use App\Models\OrderInfo;
 use App\Models\Product;
 use App\Models\Role;
 use App\Models\Supplier;
@@ -32,6 +33,42 @@ class OrderController extends Controller
         $pros = Product::selection()->active()->get();
         $units = Unit::selection()->active()->get();
         return view('admin.order.create',compact('sups','pros','units'));
+    }
+
+    // AJAX
+
+    public function setOrder(Request $request)
+    {
+        if(! Role::havePremission(['order_cr']))
+            return "No Premission";
+
+        try {
+
+            $request->request->add(['admin_id' =>  Auth::user()->id ]);
+            $order= Order::create($request->except(['_token']));
+            // Log::setLog('create','price_list_info',$PL->id,"","");
+            $saveID = $order->id;
+            return response()->json(['success'=>'Added','orderid'=>$saveID],200);
+        }catch (\Exception $ex){
+            return response()->json(['success'=>$ex],400);
+        }
+    }
+
+    public function setOrderInfo(Request $request)
+    {
+        if(! Role::havePremission(['order_cr']))
+            return "No Premission";
+
+        try {
+
+            $request->request->add(['admin_id' =>  Auth::user()->id ]);
+            $data= OrderInfo::create($request->except(['_token']));
+            // Log::setLog('create','price_list_info',$PL->id,"","");
+
+            return response()->json(['success'=>'Added','ordinfoid'=>$data->id],200);
+        }catch (\Exception $ex){
+            return response()->json(['success'=>$ex],400);
+        }
     }
 /*
     public function store(Request $request)
