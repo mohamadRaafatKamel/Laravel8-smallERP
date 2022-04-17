@@ -7,6 +7,7 @@ use App\Models\Log;
 use App\Models\Order;
 use App\Models\OrderInfo;
 use App\Models\Product;
+use App\Models\ProductBuy;
 use App\Models\Role;
 use App\Models\Supplier;
 use App\Models\Unit;
@@ -32,13 +33,15 @@ class OrderController extends Controller
         $order = $orderinfos = [];
         $sups = Supplier::selection()->active()->get();
         $pros = Product::selection()->active()->get();
+        $proCats = ProductBuy::select('product_id', 'category')->active()->distinct('category')->get();
         $units = Unit::selection()->active()->get();
         if(isset($id)){
             $order = Order::selection()->find($id);
             $orderinfos = OrderInfo::selection()->where('order_id',$id)->get();
         }
+        dd($proCats);
         return view('admin.order.create',
-        compact('order','orderinfos','sups','pros','units'));
+        compact('order','orderinfos','sups','pros','proCats','units'));
     }
 
     // AJAX

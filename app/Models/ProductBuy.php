@@ -27,6 +27,7 @@ class ProductBuy extends Model
     }
 
     public function scopeActive($query){
+        $query -> where('status','!=','99');
         return $query -> where('status',0);
     }
 

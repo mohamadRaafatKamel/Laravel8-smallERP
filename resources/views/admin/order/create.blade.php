@@ -67,7 +67,7 @@
                                                                     </option>
                                                                 @endforeach
                                                             </select>
-                                                            <input type="hidden" id="order"/>
+                                                            <input type="hidden5" id="order" @if (isset($order->id)) value="{{ $order->id }}" @endif />
                                                         </div>
                                                     </div>
 
