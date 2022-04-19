@@ -38,6 +38,15 @@ class Unit extends Model
         return   $this ->getName($this -> parent) ;
     }
 
+    // get parent id of unit sended
+    public static function getParantID($unit_id){
+        $data = Unit::select()->find($unit_id);
+        if(isset($data->id) && isset($data->parent)){
+            return $data->parent;
+        }
+        return false;
+    }
+
     public static function getName($id)
     {
         $data = Unit::select()->find($id);

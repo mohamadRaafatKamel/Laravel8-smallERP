@@ -33,15 +33,14 @@ class OrderController extends Controller
         $order = $orderinfos = [];
         $sups = Supplier::selection()->active()->get();
         $pros = Product::selection()->active()->get();
-        $proCats = ProductBuy::select('product_id', 'category')->active()->distinct('category')->get();
         $units = Unit::selection()->active()->get();
         if(isset($id)){
             $order = Order::selection()->find($id);
             $orderinfos = OrderInfo::selection()->where('order_id',$id)->get();
         }
-        dd($proCats);
+        // dd($proCats);
         return view('admin.order.create',
-        compact('order','orderinfos','sups','pros','proCats','units'));
+        compact('order','orderinfos','sups','pros','units'));
     }
 
     // AJAX
@@ -75,6 +74,47 @@ class OrderController extends Controller
             // Log::setLog('create','price_list_info',$PL->id,"","");
 
             return response()->json(['success'=>'Added','ordinfoid'=>$data->id],200);
+        }catch (\Exception $ex){
+            return response()->json(['success'=>$ex],400);
+        }
+    }
+
+    public function getProductCat(Request $request)
+    {
+        if(! Role::havePremission(['order_cr']))
+            return "No Premission";
+
+        try {
+            $proCats = [];
+
+            if(isset($request->pro_id)){
+                $proCats = ProductBuy::select('category')->active()->distinct('category')
+                                        ->where('product_id', $request->pro_id)->get();
+            }
+
+            return response()->json($proCats,200);
+        }catch (\Exception $ex){
+            return response()->json(['success'=>$ex],400);
+        }
+    }
+
+    public function getProductUnit(Request $request)
+    {
+        if(! Role::havePremission(['order_cr']))
+            return "No Premission";
+
+        try {
+            $proUnits = [];
+
+            if(isset($request->pro_id) && isset($request->cat)){
+                $proUnits = ProductBuy::getProductCategoryUnit($request->pro_id, $request->cat);
+            }elseif(isset($request->pro_id)){
+                $proUnits = Unit::selection()->active()->get();
+            }
+
+            
+
+            return response()->json($proUnits,200);
         }catch (\Exception $ex){
             return response()->json(['success'=>$ex],400);
         }

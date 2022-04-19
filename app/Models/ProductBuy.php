@@ -39,6 +39,31 @@ class ProductBuy extends Model
         return Unit::getName($this->unit_id) ;
     }
 
+    public static function getProductCategoryUnit($pro_id, $cat){
+        $units = [];
+        $probuy = ProductBuy::select('unit_id')->where('product_id',$pro_id)->where('category',$cat)->first();
+        if(isset($probuy->unit_id)){
+            $units[] = [
+                'id' =>$probuy->unit_id,
+                'name' =>Unit::getName($probuy->unit_id),
+            ];
+            $unitId =$probuy->unit_id;
+            while (true){
+                $parant = Unit::getParantID($unitId);
+                if($parant){
+                    $units[] = [
+                        'id' =>$parant,
+                        'name' =>Unit::getName($parant),
+                    ];
+                    $unitId = $parant;
+                }else{
+                    break;
+                }
+            }
+        }
+        return $units;
+    }
+
     public function getExpHave(){
         switch( $this ->exp_have){
             case 1 :

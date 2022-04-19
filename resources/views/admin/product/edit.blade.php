@@ -116,7 +116,7 @@ else
                                                         <label for="category"> المواصفات  </label>
                                                         <input type="text" id="category"
                                                                class="form-control" 
-                                                               placeholder="الاقسام ">
+                                                               placeholder="المواصفات ">
                                                     </div>
                                                 </div>
 

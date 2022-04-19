@@ -142,7 +142,7 @@
                                                         <div class="form-group">
                                                             <label for="product_id"> {{ __('Product') }}  </label>
                                                             <select class="select2 form-control" id="product_id">
-                                                                <option value="">-- {{ __('Unit') }} --</option>
+                                                                <option value="">-- {{ __('Product') }} --</option>
                                                                 @foreach($pros as $pro)
                                                                     <option value="{{ $pro->id }}">
                                                                         {{ $pro->name}}
@@ -152,7 +152,21 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label for="procat"> المواصفات </label>
+                                                            <select class="select2 form-control" id="procat">
+                                                                <option value="">-- المواصفات --</option>
+                                                                {{-- @foreach($pros as $pro)
+                                                                    <option value="{{ $pro->id }}">
+                                                                        {{ $pro->name}}
+                                                                    </option>
+                                                                @endforeach --}}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-2">
                                                         <div class="form-group">
                                                             <label for="amount"> {{ __('Amount') }}  </label>
                                                             <input type="number" step="0.01" value="" id="amount" 
@@ -161,16 +175,16 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-2">
                                                         <div class="form-group">
                                                             <label for="unit_id"> {{ __('Unit') }}  </label>
                                                             <select class="select2 form-control" id="unit_id">
                                                                 <option value="">-- {{ __('Unit') }} --</option>
-                                                                @foreach($units as $unit)
+                                                                {{-- @foreach($units as $unit)
                                                                     <option value="{{ $unit->id }}">
                                                                         {{ $unit->name}}
                                                                     </option>
-                                                                @endforeach
+                                                                @endforeach --}}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -257,6 +271,81 @@
     <script>
         jQuery(document).ready(function ($) {
 
+            //////////// Get Data
+
+            // get Category from Product
+            $('#product_id').change(function(){
+                ProductId = $(this).find(':selected').val();
+                loadCat(ProductId);
+                loadUnit(ProductId, null);
+            });
+
+            function loadCat(ProductId){
+                $("#procat").children().remove();
+                $.ajax({
+                    url: "{{ route('ajax.order.get.product.cat') }}",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        pro_id : ProductId,
+                        _token: '{{ csrf_token() }}'
+                    }
+                }).done(function( result ) {
+                    console.log(result.length);
+                    $("#procat").append($('<option>', {
+                        value: '',
+                        text: '-- المواصفات --',
+                    }));
+                    $(result).each(function(){
+                        $("#procat").append($('<option>', {
+                            value: this.category,
+                            text: this.category,
+                        }));
+                    })
+                });
+
+                // console.log('dd');
+                // console.log($("#procat option:selected").val());
+            }
+
+            // get Unit from Product
+            $('#procat').change(function(){
+                // console.log('ggg');
+
+                let cat = $(this).find(':selected').val();
+                let ProductId = $("#product_id option:selected").val();
+                loadUnit(ProductId, cat);
+            });
+
+            function loadUnit(ProductId, cat){
+                
+                $("#unit_id").children().remove();
+                $.ajax({
+                    url: "{{ route('ajax.order.get.product.unit') }}",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        pro_id : ProductId,
+                        cat : cat,
+                        _token: '{{ csrf_token() }}'
+                    }
+                }).done(function( result ) {
+                    // console.log(result);
+                    $("#unit_id").append($('<option>', {
+                        value: '',
+                        text: "-- {{ __('Unit') }} --",
+                    }));
+                    $(result).each(function(){
+                        $("#unit_id").append($('<option>', {
+                            value: this['id'],
+                            text: this['name'],
+                        }));
+                    })
+                });
+            }
+
+          
+            //////////// Set Data
             // add order
             function addOrder() {
 
