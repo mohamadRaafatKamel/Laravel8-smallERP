@@ -16,13 +16,13 @@ class Unit extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'name', 'size', 'parent', 'admin_id', 'created_at', 'updated_at', 'status'    
+        'id', 'name', 'size', 'parent', 'status', 'note', 'admin_id', 'created_at', 'updated_at'    
     ];
 
     public function  scopeSelection($query){
         
         return $query -> select(
-            'id', 'name', 'size', 'parent', 'admin_id', 'created_at', 'updated_at', 'status'
+            'id', 'name', 'size', 'parent', 'status', 'note', 'admin_id', 'created_at', 'updated_at'    
         );
     }
 

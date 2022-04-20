@@ -19,9 +19,10 @@ class CreateUnitsTable extends Migration
             $table->double('size',8,2)->nullable();
             $table->unsignedBigInteger('parent')->nullable();
             $table->foreign('parent')->references('id')->on('units')->onDelete('cascade');
+            $table->integer('status')->default(0);
+            $table->string('note',2500)->nullable();
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('admin')->onDelete('cascade');
-            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

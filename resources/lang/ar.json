@@ -279,7 +279,7 @@
 
 
     
-    "Supplier": "المعامل",
+    "Supplier": "الموردين",
     "Opening Balance": "رصيد افتتاجي",
     "Stock": "مخازن",
     "Clearance Company": "شركات تخليض",
@@ -291,22 +291,22 @@
     "Exp Long": "مده الصلاحيه",
     "Exp": "الصلاحيه",
     "Have Exp": "يملك تاريخ صلاحيه",
-    "Product": "منتجات",
+    "Product": "المواد",
     "Order": "امر شراء",
     "Order Date": "تاريخ الطلب",
     "Arrive Date": "تاريخ الوصول",
-    "Contract No.": "رقم العقد",
+    "Contract No.": "رقم الطلبية",
     "Payment Way": "طريقه الدفع",
     "Pay Later": "دفع اجل",
     "Amount": "الكميه",
     "Status": "الحاله",
     "Next": "التالي",
     "Value": "كميه",
-    "": "",
-    "": "",
-    "": "",
-    "": "",
-    "": "",
+    "Package Weight": "وزن الباكيج",
+    "Package Unit": "وحده الباكيج",
+    "Part Weight": "وزن التجزئه",
+    "Part Unit": "وحده التجزئه",
+    "Part": "تجزئه",
     "": "",
     
 

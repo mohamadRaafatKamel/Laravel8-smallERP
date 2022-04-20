@@ -22,6 +22,10 @@ class CreateProductBuysTable extends Migration
             $table->double('amount',8,2)->nullable();
             $table->unsignedBigInteger('unit_id')->nullable();
             $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');
+            $table->integer('part_have')->nullable();
+            $table->double('part_amount',8,2)->nullable();
+            $table->unsignedBigInteger('part_unit_id')->nullable();
+            $table->foreign('part_unit_id')->references('id')->on('units')->onDelete('cascade');
             $table->unsignedBigInteger('admin_id');
             $table->foreign('admin_id')->references('id')->on('admin')->onDelete('cascade');
             $table->integer('status')->default(0);

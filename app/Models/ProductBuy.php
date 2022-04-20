@@ -16,13 +16,15 @@ class ProductBuy extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'product_id', 'category', 'exp_have', 'amount', 'status', 'unit_id', 'admin_id', 'created_at', 'updated_at'    
+        'id', 'product_id', 'category', 'exp_have', 'amount', 'status', 'unit_id', 
+        'part_have', 'part_amount', 'part_unit_id', 'admin_id', 'created_at', 'updated_at'    
     ];
 
     public function  scopeSelection($query){
         $query -> where('status','!=','99');
         return $query -> select(
-            'id', 'product_id', 'category', 'exp_have', 'amount', 'status', 'unit_id', 'admin_id', 'created_at', 'updated_at'    
+            'id', 'product_id', 'category', 'exp_have', 'amount', 'status', 'unit_id', 
+            'part_have', 'part_amount', 'part_unit_id', 'admin_id', 'created_at', 'updated_at'    
         );
     }
 
@@ -66,6 +68,16 @@ class ProductBuy extends Model
 
     public function getExpHave(){
         switch( $this ->exp_have){
+            case 1 :
+                return __('Yes');
+            case 0 :
+                return __('No');
+        }
+        return "_";
+    }
+
+    public function getPartHave(){
+        switch( $this ->part_have){
             case 1 :
                 return __('Yes');
             case 0 :

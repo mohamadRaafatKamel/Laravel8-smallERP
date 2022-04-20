@@ -106,7 +106,7 @@ else
 
 
 
-                                                <h4 class="form-section"><i class="ft-home"></i> شراء </h4>
+                                                <h4 class="form-section"><i class="ft-home"></i> المواصفات </h4>
 
 
                                             <div class="row">
@@ -122,7 +122,7 @@ else
 
                                                 <div class="col-md-2">
                                                     <div class="form-group">
-                                                        <label for="amount"> {{ __('Value') }}  </label>
+                                                        <label for="amount"> {{ __('Package Weight') }}  </label>
                                                         <input type="number" step="0.01" value="" id="amount" 
                                                             class="form-control"  max="6"
                                                             placeholder="{{ __('0.00') }}">
@@ -131,7 +131,7 @@ else
 
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label for="unit_id"> {{ __('Unit') }}  </label>
+                                                        <label for="unit_id"> {{ __('Package Unit') }}  </label>
                                                         <select class="select2 form-control" id="unit_id">
                                                             <option value="">-- {{ __('Unit') }} --</option>
                                                             @foreach($units as $unit)
@@ -148,23 +148,62 @@ else
                                                         <label for="exp_have"
                                                                class="card-title ml-1">{{ __('Exp') }} </label>
 
-                                                        <input type="checkbox"  value="1" name="exp_have"
-                                                               id="exp_have"
-                                                               class="switchery" data-color="success"
-                                                               @if($datas->exp_have  == 1 ) checked @endif/>
+                                                        <input type="checkbox"  value="1" id="exp_have"
+                                                               class="switchery" data-color="success" />
                                                         @error('exp_have')
                                                         <span class="text-danger">{{$message}}</span>
                                                         @enderror
                                                     </div>
                                                 </div>
 
+                                                <div class="col-md-2">
+                                                    <div class="form-group mt-1">
+                                                        <label for="part_have"
+                                                               class="card-title ml-1">{{ __('Part') }} </label>
+                                                        <input type="checkbox" value="1" id="part_have"
+                                                                onchange="showHidePartSection()"
+                                                               class="switchery" data-color="success" />
+                                                        @error('part_have')
+                                                        <span class="text-danger">{{$message}}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row" id="partSection" style="display: none;">
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="part_amount"> {{ __('Part Weight') }}  </label>
+                                                        <input type="number" step="0.01" value="" id="part_amount" 
+                                                            class="form-control"  max="6"
+                                                            placeholder="{{ __('0.00') }}">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="part_unit_id"> {{ __('Part Unit') }}  </label>
+                                                        <select class="select2 form-control" style="width: 100%;" id="part_unit_id">
+                                                            <option value="">-- {{ __('Unit') }} --</option>
+                                                            @foreach($units as $unit)
+                                                                <option value="{{ $unit->id }}">
+                                                                    {{ $unit->name}}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-md-1">
                                                     <button type="button" style="margin-top: 25px;" class="btn btn-primary" id="btnBuy">
                                                         {{ __('Add') }}
                                                    </button>
                                                 </div>
                                             </div>
-                                          
+<br/>
                                             <div class="row">
                                                 <table class="table table-striped table-bordered" id="tblService">
                                                     <thead>
@@ -216,15 +255,19 @@ else
 @section('script')
     <script>
         jQuery(document).ready(function ($) {
-           
+
             // add Service
-            $('#btnBuy').click(function () {
+            $('#btnBuy').click(function () { 
                 
             let unit_id = $("#unit_id option:selected").val();
             let unit_id_text = $("#unit_id option:selected").text();
             let amount = $("#amount").val();
+            let part_unit_id = $("#part_unit_id option:selected").val();
+            let part_unit_id_text = $("#part_unit_id option:selected").text();
+            let part_amount = $("#part_amount").val();
             let category = $("#category").val();
             let exphave = 0;
+            let parthave = 0;
             let product_id = {{ $datas->id }};
             let hv= "{{ __('No') }}";
             let _token = '{{ csrf_token() }}';
@@ -233,16 +276,34 @@ else
                 exphave = 1;
             }
 
+            if($('#part_have').is(':checked')){
+                parthave = 1;
+            }
+
             if(exphave == 1) hv= "{{ __('Yes') }}";
 
             // console.log(exphave);
 
             if(unit_id == ""){
-                alert("يجب اضافه الوحده");
+                alert(" يجب اضافه الوحده الباكيج");
+            }else if(category == ""){
+                alert("اضافه المواصفات");
             }else if(amount == ""){
-                alert("اضافه الكميه");
+                alert("اضافه وزن الباكيج");
+            }else if(amount > 0){
+                alert(" وزن الباكيج يجب ان يكون اكبر من الصفر");
             }else if(amount.length  > 9 ){
-                alert("الكميه لا يجب ان تتجاوز 6 ارقام صحيحه");
+                alert("وزن الباكيج لا يجب ان تتجاوز 6 ارقام صحيحه");
+            }else if(parthave== 1 && (part_unit_id =="" || part_amount > 0 || part_amount == "" || part_amount.length  > 9) ){
+                if(part_unit_id == ""){
+                    alert("يجب اضافه وحده التجزئه");
+                }else if(part_amount == ""){
+                    alert("اضافه وزن التجزئه");
+                }else if(part_amount > 0){
+                alert(" وزن التجزئه يجب ان يكون اكبر من الصفر");
+                }else if(part_amount.length  > 9 ){
+                    alert("وزن التجزئه لا يجب ان تتجاوز 6 ارقام صحيحه");
+                }
             }else{
                 $.ajax({
                     url: "{{ route('ajax.product.set.buy') }}",
@@ -254,6 +315,9 @@ else
                         category :category,
                         product_id :product_id,
                         exp_have :exphave,
+                        part_have :parthave,
+                        part_amount :part_amount,
+                        part_unit_id :part_unit_id,
                         _token: _token
                     },
                     success: function (response) {
@@ -279,5 +343,14 @@ else
             });
 
         });
+
+        // Show/hide Part section
+        function showHidePartSection()
+            {
+                if($('#part_have').is(":checked"))   
+                    $("#partSection").show();   
+                else
+                    $("#partSection").hide();
+            }
     </script>
 @endsection
