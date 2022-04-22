@@ -24,4 +24,14 @@ class Order extends Model
             'id', 'contract_no', 'date_order', 'status', 'date_arrive', 'payment_way', 'supplier_id', 'admin_id', 'created_at', 'updated_at'    
         );
     }
+
+    public function getStatus(){
+        switch( $this ->status){
+            case 0 :
+                return __('Open');
+            case 5 :
+                return __('Confirm');
+        }
+        return "_";
+    }
 }

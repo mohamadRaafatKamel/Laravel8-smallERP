@@ -232,50 +232,50 @@ else
             // add Service
             $('#btnBuy').click(function () {
 
-            let unit_id = $("#unit_id option:selected").val();
-            let unit_id_text = $("#unit_id option:selected").text();
-            let amount = $("#amount").val();
-            let category = $("#category").val();
-            let product_id = {{ $datas->id }}
-            let _token = '{{ csrf_token() }}';
+                let unit_id = $("#unit_id option:selected").val();
+                let unit_id_text = $("#unit_id option:selected").text();
+                let amount = $("#amount").val();
+                let category = $("#category").val();
+                let product_id = {{ $datas->id }}
+                let _token = '{{ csrf_token() }}';
 
-            if(unit_id == ""){
-                alert("يجب اضافه الوحده");
-            }else if(amount == ""){
-                alert("اضافه الكميه");
-            }else if(category == ""){
-                alert("يجب اضافه القسم");
-            }else if(amount.length  > 9 ){
-                alert("الكميه لا يجب ان تتجاوز 6 ارقام صحيحه");
-            }else{
-                $.ajax({
-                    url: "{{ route('ajax.product.set.buy') }}",
-                    type: 'POST',
-                    dataType: 'json',
-                    data:{
-                        unit_id :unit_id,
-                        amount :amount,
-                        category :category,
-                        product_id :product_id,
-                        _token: _token
-                    },
-                    success: function (response) {
-                        $('#unit_id').val('').change();
-                        $('#amount').val(0);
-                        $('#category').val('');
-                        let url = '{{route("admin.product.buy.delete",[ $datas->id,":srvid"])}}';
-                        url = url.replace(':srvid', response.srvid);
-                        $('#tblService tr:last').after('<tr><td>'+category+'</td><td>'+amount+'</td><td>'+unit_id_text+'</td><td>'+
-                            '<a href="'+url+'" class="btn btn-danger" ><i class="ft-trash-2"></i></a>'+'</td></tr>');
-                        
-                        // console.log(response.srvid);
+                if(unit_id == ""){
+                    alert("يجب اضافه الوحده");
+                }else if(amount == ""){
+                    alert("اضافه الكميه");
+                }else if(category == ""){
+                    alert("يجب اضافه القسم");
+                }else if(amount.length  > 9 ){
+                    alert("الكميه لا يجب ان تتجاوز 6 ارقام صحيحه");
+                }else{
+                    $.ajax({
+                        url: "{{ route('ajax.product.set.buy') }}",
+                        type: 'POST',
+                        dataType: 'json',
+                        data:{
+                            unit_id :unit_id,
+                            amount :amount,
+                            category :category,
+                            product_id :product_id,
+                            _token: _token
+                        },
+                        success: function (response) {
+                            $('#unit_id').val('').change();
+                            $('#amount').val(0);
+                            $('#category').val('');
+                            let url = '{{route("admin.product.buy.delete",[ $datas->id,":srvid"])}}';
+                            url = url.replace(':srvid', response.srvid);
+                            $('#tblService tr:last').after('<tr><td>'+category+'</td><td>'+amount+'</td><td>'+unit_id_text+'</td><td>'+
+                                '<a href="'+url+'" class="btn btn-danger" ><i class="ft-trash-2"></i></a>'+'</td></tr>');
+                            
+                            // console.log(response.srvid);
 
-                    }
-                    // error: function (xhr, ajaxOptions, thrownError) {
-                    //     // console.log(xhr);
-                    // }
-                });
-            }
+                        }
+                        // error: function (xhr, ajaxOptions, thrownError) {
+                        //     // console.log(xhr);
+                        // }
+                    });
+                }
             });
 
         });

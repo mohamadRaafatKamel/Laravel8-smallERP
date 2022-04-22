@@ -37,33 +37,35 @@ class ProductBuy extends Model
         return $this -> status == 0 ? 'مفعل'  : 'غير مفعل';
     }
 
-    public function getUnit(){
+    public function getPackageUnit(){
         return Unit::getName($this->unit_id) ;
     }
 
+    public function getPartUnit(){
+        return Unit::getName($this->part_unit_id) ;
+    }
+
+    public function getPackageAmount(){
+        return $this->amount." ".$this->getPackageUnit() ;
+    }
+
+    public function getPartAmount(){
+        if($this->part_have == 0)
+            return __('No');
+        else
+            return $this->part_amount." ".$this->getPartUnit() ;
+    }
+
     public static function getProductCategoryUnit($pro_id, $cat){
-        $units = [];
         $probuy = ProductBuy::select('unit_id')->where('product_id',$pro_id)->where('category',$cat)->first();
         if(isset($probuy->unit_id)){
             $units[] = [
                 'id' =>$probuy->unit_id,
                 'name' =>Unit::getName($probuy->unit_id),
             ];
-            $unitId =$probuy->unit_id;
-            while (true){
-                $parant = Unit::getParantID($unitId);
-                if($parant){
-                    $units[] = [
-                        'id' =>$parant,
-                        'name' =>Unit::getName($parant),
-                    ];
-                    $unitId = $parant;
-                }else{
-                    break;
-                }
-            }
+            return $units;
         }
-        return $units;
+        return false;
     }
 
     public function getExpHave(){

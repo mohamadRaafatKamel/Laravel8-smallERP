@@ -209,9 +209,9 @@ else
                                                     <thead>
                                                         <tr>
                                                             <th>المواصفات</th>
-                                                            <th>{{ __('Value') }}</th>
-                                                            <th>{{ __('Unit') }}</th>
+                                                            <th>{{ __('Package') }}</th>
                                                             <th>{{ __('Have Exp') }}</th>
+                                                            <th>{{ __('Part') }}</th>
                                                             <th> </th>
                                                         </tr>
                                                     </thead>
@@ -220,11 +220,14 @@ else
                                                     @foreach ($prbuys as $prbuy)
                                                         <tr>
                                                             <td>{{ $prbuy->category }}</td>
-                                                            <td>{{ $prbuy->amount  }}</td>
-                                                            <td>{{ $prbuy->getUnit() }}</td>
+                                                            <td>{{ $prbuy->getPackageAmount() }}</td>
                                                             <td>{{ $prbuy->getExpHave() }}</td>
+                                                            <td>{{ $prbuy->getPartAmount() }}</td>
                                                             <td>
-                                                                <a href="{{route('admin.product.buy.delete',[$datas->id, $prbuy->id])}}" class="btn btn-danger" ><i class="ft-trash-2"></i></a>
+                                                                {{-- <a href="{{route('admin.product.buy.delete',[$datas->id, $prbuy->id])}}" class="btn btn-danger" ><i class="ft-trash-2"></i></a> --}}
+                                                                <button type="button" class="btn btn-danger btnDel" name="btn" value="{{ $prbuy->id }}">
+                                                                    <i class="ft-trash-2"></i>
+                                                                </button>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -256,90 +259,118 @@ else
     <script>
         jQuery(document).ready(function ($) {
 
-            // add Service
-            $('#btnBuy').click(function () { 
-                
-            let unit_id = $("#unit_id option:selected").val();
-            let unit_id_text = $("#unit_id option:selected").text();
-            let amount = $("#amount").val();
-            let part_unit_id = $("#part_unit_id option:selected").val();
-            let part_unit_id_text = $("#part_unit_id option:selected").text();
-            let part_amount = $("#part_amount").val();
-            let category = $("#category").val();
-            let exphave = 0;
-            let parthave = 0;
-            let product_id = {{ $datas->id }};
-            let hv= "{{ __('No') }}";
-            let _token = '{{ csrf_token() }}';
+            // Delete Service 
+            $(".btnDel").click(function(){
 
-            if($('#exp_have').is(':checked')){
-                exphave = 1;
-            }
+                let id = $(this).val();
+                let row = $(this).closest("tr");
+                let _token   = '{{ csrf_token() }}';
 
-            if($('#part_have').is(':checked')){
-                parthave = 1;
-            }
-
-            if(exphave == 1) hv= "{{ __('Yes') }}";
-
-            // console.log(exphave);
-
-            if(unit_id == ""){
-                alert(" يجب اضافه الوحده الباكيج");
-            }else if(category == ""){
-                alert("اضافه المواصفات");
-            }else if(amount == ""){
-                alert("اضافه وزن الباكيج");
-            }else if(amount > 0){
-                alert(" وزن الباكيج يجب ان يكون اكبر من الصفر");
-            }else if(amount.length  > 9 ){
-                alert("وزن الباكيج لا يجب ان تتجاوز 6 ارقام صحيحه");
-            }else if(parthave== 1 && (part_unit_id =="" || part_amount > 0 || part_amount == "" || part_amount.length  > 9) ){
-                if(part_unit_id == ""){
-                    alert("يجب اضافه وحده التجزئه");
-                }else if(part_amount == ""){
-                    alert("اضافه وزن التجزئه");
-                }else if(part_amount > 0){
-                alert(" وزن التجزئه يجب ان يكون اكبر من الصفر");
-                }else if(part_amount.length  > 9 ){
-                    alert("وزن التجزئه لا يجب ان تتجاوز 6 ارقام صحيحه");
+                if(confirm("هل انت متاكد ؟")){
+                    $.ajax({
+                        url: "{{ route('admin.product.buy.delete') }}",
+                        type: 'POST',
+                        dataType: 'json',
+                        data:{
+                            id :id,
+                            _token: _token
+                        },
+                        success: function (response) {
+                            if(response.success == 1){
+                                row.hide();
+                            }
+                        }
+                    });
+                }else{
+                    return false;
                 }
-            }else{
-                $.ajax({
-                    url: "{{ route('ajax.product.set.buy') }}",
-                    type: 'POST',
-                    dataType: 'json',
-                    data:{
-                        unit_id :unit_id,
-                        amount :amount,
-                        category :category,
-                        product_id :product_id,
-                        exp_have :exphave,
-                        part_have :parthave,
-                        part_amount :part_amount,
-                        part_unit_id :part_unit_id,
-                        _token: _token
-                    },
-                    success: function (response) {
-                        $('#unit_id').val('').change();
-                        $('#amount').val('');
-                        $('#category').val('');
-                        
-                        
-                        let url = '{{route("admin.product.buy.delete",[ $datas->id,":srvid"])}}';
-                        url = url.replace(':srvid', response.proid);
-                        $('#tblService tr:last').after('<tr><td>'+category+'</td><td>'+amount+'</td><td>'+unit_id_text
-                            +'</td><td>'+ hv +'</td><td>'+
-                            '<a href="'+url+'" class="btn btn-danger" ><i class="ft-trash-2"></i></a>'+'</td></tr>');
-                        
-                        // console.log(response.srvid);
+            });
 
+            // add Service
+            $('#btnBuy').click(function () {
+                
+                let unit_id = $("#unit_id option:selected").val();
+                let unit_id_text = $("#unit_id option:selected").text();
+                let amount = $("#amount").val();
+                let part_unit_id = $("#part_unit_id option:selected").val();
+                let part_unit_id_text = $("#part_unit_id option:selected").text();
+                let part_amount = $("#part_amount").val();
+                let category = $("#category").val();
+                let exphave = 0;
+                let parthave = 0;
+                let product_id = '{{ $datas->id }}';
+                let hv= "{{ __('No') }}";
+                let hp= "{{ __('No') }}";
+                let _token = '{{ csrf_token() }}';
+
+                if($('#exp_have').is(':checked')){
+                    exphave = 1;
+                    hv= "{{ __('Yes') }}";
+                }
+
+                if($('#part_have').is(':checked')){
+                    parthave = 1;
+                    hp= part_amount+' '+part_unit_id_text;
+                }
+
+                // console.log(exphave);
+
+                if(unit_id == ""){
+                    alert(" يجب اضافه الوحده الباكيج");
+                }else if(category == ""){
+                    alert("اضافه المواصفات");
+                }else if(amount == ""){
+                    alert("اضافه وزن الباكيج");
+                }else if(amount < 1){
+                    alert(" وزن الباكيج يجب ان يكون اكبر من الصفر");
+                }else if(amount.length  > 9 ){
+                    alert("وزن الباكيج لا يجب ان تتجاوز 6 ارقام صحيحه");
+                }else if(parthave== 1 && (part_unit_id =="" || part_amount < 1 || part_amount == "" || part_amount.length  > 9) ){
+                    if(part_unit_id == ""){
+                        alert("يجب اضافه وحده التجزئه");
+                    }else if(part_amount == ""){
+                        alert("اضافه وزن التجزئه");
+                    }else if(part_amount < 1){
+                        alert(" وزن التجزئه يجب ان يكون اكبر من الصفر");
+                    }else if(part_amount.length  > 9 ){
+                        alert("وزن التجزئه لا يجب ان تتجاوز 6 ارقام صحيحه");
                     }
-                    // error: function (xhr, ajaxOptions, thrownError) {
-                    //     // console.log(xhr);
-                    // }
-                });
-            }
+                }else{
+                    $.ajax({
+                        url: "{{ route('ajax.product.set.buy') }}",
+                        type: 'POST',
+                        dataType: 'json',
+                        data:{
+                            unit_id :unit_id,
+                            amount :amount,
+                            category :category,
+                            product_id :product_id,
+                            exp_have :exphave,
+                            part_have :parthave,
+                            part_amount :part_amount,
+                            part_unit_id :part_unit_id,
+                            _token: _token
+                        },
+                        success: function (response) {
+                            $('#unit_id').val('').change();
+                            $('#amount').val('');
+                            $('#category').val('');
+                            $('#part_unit_id').val('').change();
+                            $('#part_amount').val('');
+                            
+                            $('#tblService tr:last').after('<tr><td>'+category+'</td><td>'+amount+' '+unit_id_text+'</td><td>'+
+                                hv +'</td><td>'+hp +'</td><td>'+
+                                    '<button type="button" class="btn btn-danger btnDel" value='+response.proid+'>'+
+                                    '<i class="ft-trash-2"></i></button></td></tr>');
+                            
+                            // console.log(response.srvid);
+
+                        }
+                        // error: function (xhr, ajaxOptions, thrownError) {
+                        //     console.log(xhr);
+                        // }
+                    });
+                }
             });
 
         });

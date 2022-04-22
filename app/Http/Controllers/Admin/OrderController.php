@@ -108,40 +108,47 @@ class OrderController extends Controller
 
             if(isset($request->pro_id) && isset($request->cat)){
                 $proUnits = ProductBuy::getProductCategoryUnit($request->pro_id, $request->cat);
-            }elseif(isset($request->pro_id)){
-                $proUnits = Unit::selection()->active()->get();
             }
-
-            
 
             return response()->json($proUnits,200);
         }catch (\Exception $ex){
             return response()->json(['success'=>$ex],400);
         }
     }
-/*
+
     public function store(Request $request)
     {
         if(! Role::havePremission(['order_cr']))
             return redirect()->route('admin.dashboard');
 
         try {
-            if (!$request->has('status'))
-                $request->request->add(['status' => 1]);
-
-            if (!$request->has('exp_have'))
-                $request->request->add(['exp_have' => 0]);
-
             $request->request->add(['admin_id' =>  Auth::user()->id ]);
-            $spc= Order::create($request->except(['_token']));
+
+            if (isset($request->orderid)){
+                $data = Order::find($request->orderid);
+                if (!$data) {
+                    return redirect()->route('admin.order')->with(['error' => '  غير موجوده']);
+                }
+                if (isset($request->btn) && $request->btn == "ConfBtn"){
+                    $prod = OrderInfo::where('order_id',$request->orderid)->count();
+                    if($prod < 1){
+                        $data->update($request->except(['_token']));
+                        return redirect()->route('admin.order.create',$request->orderid)->with(['error'=>'يجب اضافه المنتجات اولا']);
+                    }else{
+                        $request->request->add(['status' =>  '5' ]);
+                        $data->update($request->except(['_token']));
+                    }
+                }
+            }else
+                $spc= Order::create($request->except(['_token']));
             // Log::setLog('create','order',$spc->id,"","");
 
-            return redirect()->route('admin.order.edit',$spc->id)->with(['success'=>'تم الحفظ']);
+            return redirect()->route('admin.order')->with(['success'=>'تم الحفظ']);
         }catch (\Exception $ex){
             return redirect()->route('admin.order.create')->with(['error'=>'يوجد خطء']);
         }
     }
-
+/*
     public function edit($id)
     {
         if(! Role::havePremission(['order_view','order_idt']))

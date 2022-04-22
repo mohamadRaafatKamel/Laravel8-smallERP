@@ -44,8 +44,7 @@
                                 @include('admin.include.alerts.errors')
                                 <div class="card-content collapse show">
                                     <div class="card-body">
-                                        <form class="form" action="" method="POST"
-                                              enctype="multipart/form-data">
+                                        <form class="form" action="{{route('admin.order.store')}}" method="POST">
                                             @csrf
 
                                             <div class="form-body">
@@ -56,7 +55,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="supplier_id"> {{ __('Supplier') }}  </label>
-                                                            <select class="select2 form-control" id="supplier_id">
+                                                            <select class="select2 form-control" name="supplier_id" id="supplier_id">
                                                                 <option value="">-- {{ __('Supplier') }} --</option>
                                                                 @foreach($sups as $sup)
                                                                     <option value="{{ $sup->id }}"
@@ -67,7 +66,7 @@
                                                                     </option>
                                                                 @endforeach
                                                             </select>
-                                                            <input type="hidden5" id="order" @if (isset($order->id)) value="{{ $order->id }}" @endif />
+                                                            <input type="hidden" name="orderid" id="order" @if (isset($order->id)) value="{{ $order->id }}" @endif />
                                                         </div>
                                                     </div>
 
@@ -75,7 +74,7 @@
                                                         <div class="form-group">
                                                             <label for="contract_no"> {{ __('Contract No.') }}  </label>
                                                             <input type="number" id="contract_no"
-                                                                   class="form-control"
+                                                                   class="form-control" name="contract_no"
                                                                    @if (isset($order->contract_no)) value="{{ $order->contract_no }}" @endif
                                                                    placeholder="{{ __('Contract No.') }}">
                                                             @error('contract_no')
@@ -87,7 +86,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="date_order"> {{ __('Order Date') }}  </label>
-                                                            <input type="date" id="date_order"
+                                                            <input type="date" id="date_order" name="date_order"
                                                                    class="form-control" required
                                                                    @if (isset($order->date_order)) value="{{ $order->date_order }}" @endif
                                                                    placeholder="{{ __('Order Date') }} ">
@@ -100,7 +99,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="date_arrive"> {{ __('Arrive Date') }}  </label>
-                                                            <input type="date" id="date_arrive"
+                                                            <input type="date" id="date_arrive" name="date_arrive"
                                                                    class="form-control" required
                                                                    @if (isset($order->date_arrive)) value="{{ $order->date_arrive }}" @endif
                                                                    placeholder="{{ __('Arrive Date') }} ">
@@ -113,7 +112,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="payment_way"> {{ __('Payment Way') }} </label>
-                                                            <select id="payment_way" required class="form-control">
+                                                            <select id="payment_way" required class="form-control" name="payment_way">
                                                                 <option value="" >-- {{ __('Payment Way') }}  --</option>
                                                                 @if (isset($order->payment_way))
                                                                     <option value="1" @if ($order->payment_way == '1') selected @endif>
@@ -201,9 +200,13 @@
                                                     <input type="hidden" id="ordid" value="">
 
                                                     <div class="col-md-1">
-                                                        <button type="button" style="margin-top: 25px;" class="btn btn-primary" id="btnOrdInfo">
-                                                            {{ __('Add') }}
-                                                    </button>
+                                                        @if (isset($order->status)) 
+                                                            @if ($order->status == 0)
+                                                                <button type="button" style="margin-top: 25px;" class="btn btn-primary" id="btnOrdInfo">
+                                                                    {{ __('Add') }}
+                                                                </button>
+                                                            @endif
+                                                        @endif
                                                     </div>
                                                 </div>
                                             
@@ -245,12 +248,19 @@
                                                 <a href="{{ route('admin.order') }}" class="btn btn-warning">
                                                      تراجع
                                                 </a>
-                                                
-                                                <button type="submit" class="btn btn-primary">
-                                                     {{ __('Save') }}
-                                                </button>
+                                                @if (isset($order->status)) 
+                                                    @if ($order->status == 0)
+                                                        <button type="submit" class="btn btn-primary">
+                                                            {{ __('Save') }}
+                                                        </button>
+        
+                                                        <button type="submit" name="btn" value="ConfBtn" class="btn btn-primary">
+                                                            {{ __('Confirm') }}
+                                                        </button>
 
-                                                
+                                                    @endif
+                                                @endif
+
                                             </div>
                                         </form>
                                     </div>
@@ -277,7 +287,7 @@
             $('#product_id').change(function(){
                 ProductId = $(this).find(':selected').val();
                 loadCat(ProductId);
-                loadUnit(ProductId, null);
+                // loadUnit(ProductId, null);
             });
 
             function loadCat(ProductId){
@@ -331,10 +341,7 @@
                     }
                 }).done(function( result ) {
                     // console.log(result);
-                    $("#unit_id").append($('<option>', {
-                        value: '',
-                        text: "-- {{ __('Unit') }} --",
-                    }));
+                    
                     $(result).each(function(){
                         $("#unit_id").append($('<option>', {
                             value: this['id'],

@@ -94,23 +94,6 @@ class ProductController extends Controller
         }
     }
 
-    public function destroyProductBuy($prid, $id)
-    {
-        try {
-            $data = ProductBuy::find($id);
-            if (!$data) {
-                return redirect()->route('admin.product', $id)->with(['error' => '  غير موجوده']);
-            }
-            // Log::setLog('delete','price_list_info',$data->id,"","");
-            $data->update(['status'=> '99']);
-
-            return redirect()->route('admin.product.edit',$prid)->with(['success' => 'تم حذف  بنجاح']);
-
-        } catch (\Exception $ex) {
-            return redirect()->route('admin.product.edit',$prid)->with(['error' => 'هناك خطا ما يرجي المحاوله فيما بعد']);
-        }
-    }
-
     // AJAX
 
     public function setBuy(Request $request)
@@ -124,50 +107,31 @@ class ProductController extends Controller
             $Pr= ProductBuy::create($request->except(['_token']));
             // Log::setLog('create','price_list_info',$PL->id,"","");
             $saveID = $Pr->id;
-
-            // $saveID = 0;
-            // if(isset($request->service_id) && isset($request->price_list_id)){
-            //     $data = PriceListInfo::select()->where('service_id',$request->service_id)->where('price_list_id',$request->price_list_id)->first();
-            //     if(isset($data->id)){
-            //         $saveID = $data->id;
-            //         Log::setLog('update','price_list_info',$data->id,"",$request->except(['_token']) );
-            //         $data->update(['price'=> $request->price]);
-            //     }else{
-                    
-            //     }
-            // }elseif(isset($request->package_id) && isset($request->price_list_id)){
-            //     $data = PriceListInfo::select()->where('package_id',$request->package_id)->where('price_list_id',$request->price_list_id)->first();
-            //     if(isset($data->id)){
-            //         $saveID = $data->id;
-            //         Log::setLog('update','price_list_info',$data->id,"",$request->except(['_token']) );
-            //         $data->update(['price'=> $request->price]);
-            //     }else{
-            //         $request->request->add(['admin_id' =>  Auth::user()->id ]);
-            //         $PL= PriceListInfo::create($request->except(['_token']));
-            //         Log::setLog('create','price_list_info',$PL->id,"","");
-            //         $saveID = $PL->id;
-            //     }
-            // }
             return response()->json(['success'=>'Added','proid'=>$saveID],200);
         }catch (\Exception $ex){
             return response()->json(['success'=>$ex],400);
         }
     }
 
-    // public function destroy($id)
-    // {
+    public function destroyProductBuy(Request $request)
+    {
+        // if(! Role::havePremission(['request_all','request_emergency','request_out','request_in']))
+        //     return redirect()->route('admin.dashboard');
 
-    //     try {
-    //         $data = product::find($id);
-    //         if (!$data) {
-    //             return redirect()->route('admin.product', $id)->with(['error' => '  غير موجوده']);
-    //         }
-    //         $data->delete();
+        try {
 
-    //         return redirect()->route('admin.product')->with(['success' => 'تم حذف  بنجاح']);
+            $data = ProductBuy::find($request->id);
+            if (!$data) {
+                return response()->json(['success'=>0],400);
+            }
+            // Log::setLog('delete','request_call', $request->id, "", "");
+            // $data->delete();
+            $data->update(['status'=> '99']);
+            
+            return response()->json(['success'=>1 ],200);
+        }catch (\Exception $ex){
+            return response()->json(['success'=>0],400);
+        }
+    }
 
-    //     } catch (\Exception $ex) {
-    //         return redirect()->route('admin.product')->with(['error' => 'هناك خطا ما يرجي المحاوله فيما بعد']);
-    //     }
-    // }
 }
