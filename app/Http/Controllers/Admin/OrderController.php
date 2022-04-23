@@ -43,6 +43,39 @@ class OrderController extends Controller
         compact('order','orderinfos','sups','pros','units'));
     }
 
+    public function store(Request $request)
+    {
+        if(! Role::havePremission(['order_cr']))
+            return redirect()->route('admin.dashboard');
+
+        try {
+            $request->request->add(['admin_id' =>  Auth::user()->id ]);
+
+            if (isset($request->orderid)){
+                $data = Order::find($request->orderid);
+                if (!$data) {
+                    return redirect()->route('admin.order')->with(['error' => '  غير موجوده']);
+                }
+                if (isset($request->btn) && $request->btn == "ConfBtn"){
+                    $prod = OrderInfo::where('order_id',$request->orderid)->count();
+                    if($prod < 1){
+                        $data->update($request->except(['_token']));
+                        return redirect()->route('admin.order.create',$request->orderid)->with(['error'=>'يجب اضافه المنتجات اولا']);
+                    }else{
+                        $request->request->add(['status' =>  '5' ]);
+                        $data->update($request->except(['_token']));
+                    }
+                }
+            }else
+                $spc= Order::create($request->except(['_token']));
+            // Log::setLog('create','order',$spc->id,"","");
+
+            return redirect()->route('admin.order')->with(['success'=>'تم الحفظ']);
+        }catch (\Exception $ex){
+            return redirect()->route('admin.order.create')->with(['error'=>'يوجد خطء']);
+        }
+    }
+
     // AJAX
 
     public function setOrder(Request $request)
@@ -116,38 +149,28 @@ class OrderController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function destroyOrderInfo(Request $request)
     {
-        if(! Role::havePremission(['order_cr']))
-            return redirect()->route('admin.dashboard');
+        if(! Role::havePremission(['request_all','request_emergency','request_out','request_in']))
+            return response()->json(['success'=>0],400);
 
         try {
-            $request->request->add(['admin_id' =>  Auth::user()->id ]);
 
-            if (isset($request->orderid)){
-                $data = Order::find($request->orderid);
-                if (!$data) {
-                    return redirect()->route('admin.order')->with(['error' => '  غير موجوده']);
-                }
-                if (isset($request->btn) && $request->btn == "ConfBtn"){
-                    $prod = OrderInfo::where('order_id',$request->orderid)->count();
-                    if($prod < 1){
-                        $data->update($request->except(['_token']));
-                        return redirect()->route('admin.order.create',$request->orderid)->with(['error'=>'يجب اضافه المنتجات اولا']);
-                    }else{
-                        $request->request->add(['status' =>  '5' ]);
-                        $data->update($request->except(['_token']));
-                    }
-                }
-            }else
-                $spc= Order::create($request->except(['_token']));
-            // Log::setLog('create','order',$spc->id,"","");
-
-            return redirect()->route('admin.order')->with(['success'=>'تم الحفظ']);
+            $data = OrderInfo::find($request->id);
+            if (!$data) {
+                return response()->json(['success'=>0],400);
+            }
+            // Log::setLog('delete','request_call', $request->id, "", "");
+            $data->delete();
+            // $data->update(['status'=> '99']);
+            
+            return response()->json(['success'=>1 ],200);
         }catch (\Exception $ex){
-            return redirect()->route('admin.order.create')->with(['error'=>'يوجد خطء']);
+            return response()->json(['success'=>0],400);
         }
     }
+
+    
 /*
     public function edit($id)
     {

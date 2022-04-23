@@ -225,11 +225,18 @@
                                                         @if (isset($orderinfos))
                                                             @foreach ($orderinfos as $orderinfo)
                                                                 <tr>
-                                                                    <td>{{ $orderinfo->getProduct() }}</td>
+                                                                    <td>{{ $orderinfo->getProduct() }} {{ $orderinfo->product_cat }}</td>
                                                                     <td>{{ $orderinfo->amount }}</td>
                                                                     <td>{{ $orderinfo->getUnit() }}</td>
                                                                     <td>{{ $orderinfo->price }}</td>
                                                                     <td>
+                                                                        @if (isset($order->status)) 
+                                                                            @if ($order->status == 0)
+                                                                                <button type="button" class="btn btn-danger btnDelOrderInfo" name="btn" value="{{ $orderinfo->id }}">
+                                                                                    <i class="ft-trash-2"></i>
+                                                                                </button>
+                                                                            @endif
+                                                                        @endif
                                                                         {{-- <a href="{{route('admin.order.info.delete',[$datas->id, $prbuy->id])}}" class="btn btn-danger" ><i class="ft-trash-2"></i></a> --}}
                                                                     </td>
                                                                 </tr>
@@ -270,6 +277,74 @@
                     </div>
                 </section>
                 <!-- // Basic form layout section end -->
+
+                <!--  Order Receive Table -->
+                <section id="dom">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title"> {{ __('Order Receive') }}</h4>
+                                    <a class="heading-elements-toggle"><i
+                                            class="la la-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="card-content collapse show">
+                                    <div class="card-body card-dashboard">
+                                        @if(\App\Models\Role::havePremission(['order_cr']))
+                                        <a class="btn btn-primary mb-2 mr15" href="{{ route('admin.order.receive.create') }}"><i class="ft-plus"></i>&nbsp; {{ __('Create') }}</a>
+                                        @endif
+                                        <table
+                                            class="table table-striped table-bordered ordering-print ">
+                                            <thead>
+                                            <tr>
+                                                <th>ID </th>
+                                                <th>{{ __('Supplier') }} </th>
+                                                <th>{{ __('Order Date') }} </th>
+                                                <th>{{ __('Arrive Date') }} </th>
+                                                
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            {{-- @isset($datas)
+                                                @foreach($datas as $data)
+                                                    <tr>
+                                                        <td>{{$data -> id}}</td>
+                                                        <td>{{$data -> supplier_id}}</td>
+                                                        <td>{{$data -> date_order}}</td>
+                                                        <td>{{$data -> date_arrive}}</td>
+                                                        
+                                                        <td>
+                                                                 @if(\App\Models\Role::havePremission(['order_idt']))
+                                                                <a href="{{route('admin.order.create',['id'=> $data->id ])}}"
+                                                                   class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">تعديل</a>
+                                                                   @endif
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endisset --}}
+
+
+                                            </tbody>
+
+                                        </table>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                {{-- Order Receive Table --}}
             </div>
         </div>
     </div>
@@ -413,6 +488,7 @@
                 
                 let product_id = $("#product_id option:selected").val();
                 let product_id_text = $("#product_id option:selected").text();
+                let product_cat = $("#procat option:selected").val();
                 let amount = $("#amount").val();
                 let unit_id = $("#unit_id option:selected").val();
                 let unit_id_text = $("#unit_id option:selected").text();
@@ -420,8 +496,12 @@
                 
                 let _token = '{{ csrf_token() }}';
 
+                // console.log(product_cat);
+
                 if(unit_id == ""){
                     alert("يجب اضافه الوحده");
+                }else if(product_cat == ""){
+                    alert("يجب اضافه المواصفات");
                 }else if(amount == ""){
                     alert("اضافه الكميه");
                 }else if(price == ""){
@@ -442,25 +522,56 @@
                             amount :amount,
                             price :price,
                             product_id :product_id,
+                            product_cat :product_cat,
                             order_id :order_id,
                             _token: _token
                         },
                         success: function (response) {
                             $('#product_id').val('').change();
                             $('#unit_id').val('').change();
+                            $('#procat').val('').change();
                             $('#amount').val('');
                             $('#price').val('');
-                            let url = '{{route("admin.product.buy.delete",[ 5,":srvid"])}}';
-                            url = url.replace(':srvid', response.ordinfoid);
-                            $('#tblService tr:last').after('<tr><td>'+product_id_text+'</td><td>'+amount+'</td><td>'+unit_id_text+
-                                '</td><td>'+price+'</td><td>'+
-                                '<a href="'+url+'" class="btn btn-danger" ><i class="ft-trash-2"></i></a>'+'</td></tr>');
+                            // let url = '{{route("admin.product.buy.delete",[ 5,":srvid"])}}';
+                            // url = url.replace(':srvid', response.ordinfoid);
+                            $('#tblService tr:last').after('<tr><td>'+product_id_text+ ' '+ product_cat +'</td><td>'+
+                                amount+'</td><td>'+unit_id_text+ '</td><td>'+price+'</td><td>'+
+                                    '<button type="button" class="btn btn-danger btnDelOrderInfo" value='+response.ordinfoid+'>'+
+                                    '<i class="ft-trash-2"></i></button></td></tr>');
+                                // '<a href="'+url+'" class="btn btn-danger" ><i class="ft-trash-2"></i></a>'+'</td></tr>');
                             
                         }
                         // error: function (xhr, ajaxOptions, thrownError) {
                         //     // console.log(xhr);
                         // }
                     });
+                }
+            });
+
+            // Delete order info 
+            $(".btnDelOrderInfo").click(function(){
+
+                let id = $(this).val();
+                let row = $(this).closest("tr");
+                let _token   = '{{ csrf_token() }}';
+
+                if(confirm("هل انت متاكد ؟")){
+                    $.ajax({
+                        url: "{{ route('admin.order.info.delete') }}",
+                        type: 'POST',
+                        dataType: 'json',
+                        data:{
+                            id :id,
+                            _token: _token
+                        },
+                        success: function (response) {
+                            if(response.success == 1){
+                                row.hide();
+                            }
+                        }
+                    });
+                }else{
+                    return false;
                 }
             });
 

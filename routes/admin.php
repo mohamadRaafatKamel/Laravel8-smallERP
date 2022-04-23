@@ -119,7 +119,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
         Route::get('view/{id?}','OrderController@create')->name('admin.order.create');
         Route::post('store','OrderController@store')->name('admin.order.store');
 
-        // Route::get('edit/{id}','OrderController@edit')->name('admin.order.edit');
+        Route::get('receive/view/{id?}','OrderController@receiveView')->name('admin.order.receive.create');
         // Route::post('update/{id}','OrderController@update')->name('admin.order.update');
 
         // ajax  
@@ -127,8 +127,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
         Route::post('/set', 'OrderController@setOrder')->name('ajax.order.set');
         Route::post('/get/pro/cat', 'OrderController@getProductCat')->name('ajax.order.get.product.cat');
         Route::post('/get/pro/unit', 'OrderController@getProductUnit')->name('ajax.order.get.product.unit');
-
-        Route::get('deletesrv/{oid}/{id}','OrderController@destroyProductBuy') -> name('admin.order.info.delete');
+        Route::post('delete/info','OrderController@destroyOrderInfo') -> name('admin.order.info.delete');
     });
     ##################### End Order ########################
 

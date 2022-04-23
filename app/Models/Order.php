@@ -30,8 +30,10 @@ class Order extends Model
             case 0 :
                 return __('Open');
             case 5 :
-                return __('Confirm');
+                return __('Hold');
+            case 10 :
+                return __('Done');
         }
-        return "_";
+        return "";
     }
 }
