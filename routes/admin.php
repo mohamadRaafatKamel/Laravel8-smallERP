@@ -122,7 +122,7 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
         Route::get('receive/view/{id?}','OrderController@receiveView')->name('admin.order.receive.create');
         // Route::post('update/{id}','OrderController@update')->name('admin.order.update');
 
-        // ajax  
+        // ajax
         Route::post('/setinfo', 'OrderController@setOrderInfo')->name('ajax.order.set.info');
         Route::post('/set', 'OrderController@setOrder')->name('ajax.order.set');
         Route::post('/get/pro/cat', 'OrderController@getProductCat')->name('ajax.order.get.product.cat');

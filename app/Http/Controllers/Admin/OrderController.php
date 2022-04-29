@@ -76,6 +76,24 @@ class OrderController extends Controller
         }
     }
 
+    // Receive
+    public function receiveView($id = null)
+    {
+        if(! Role::havePremission(['order_cr']))
+            return redirect()->route('admin.dashboard');
+
+        $order = $orderinfos = [];
+        $sups = Supplier::selection()->active()->get();
+        $pros = Product::selection()->active()->get();
+        $units = Unit::selection()->active()->get();
+        if(isset($id)){
+            $order = Order::selection()->find($id);
+            $orderinfos = OrderInfo::selection()->where('order_id',$id)->get();
+        }
+        // dd($proCats);
+        return view('admin.order.receive');
+    }
+
     // AJAX
 
     public function setOrder(Request $request)

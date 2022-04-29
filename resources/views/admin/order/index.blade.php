@@ -55,6 +55,7 @@
                                                 <th>{{ __('Supplier') }} </th>
                                                 <th>{{ __('Order Date') }} </th>
                                                 <th>{{ __('Arrive Date') }} </th>
+                                                <th>{{ __('Status') }} </th>
                                                 
                                                 <th></th>
                                             </tr>
@@ -68,6 +69,7 @@
                                                         <td>{{$data -> supplier_id}}</td>
                                                         <td>{{$data -> date_order}}</td>
                                                         <td>{{$data -> date_arrive}}</td>
+                                                        <td>{{$data -> getStatus()}}</td>
                                                         
                                                         <td>
                                                             {{-- <div class="btn-group" role="group" aria-label="Basic example"> --}}

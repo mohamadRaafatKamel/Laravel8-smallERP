@@ -278,8 +278,6 @@
                 </section>
                 <!-- // Basic form layout section end -->
 
-                @if ($order->status != '0')
-
                 <!--  Order Receive Table -->
                 <section id="dom">
                     <div class="row">
@@ -347,7 +345,6 @@
                     </div>
                 </section>
                 {{-- Order Receive Table --}}
-                @endif
             </div>
         </div>
     </div>
