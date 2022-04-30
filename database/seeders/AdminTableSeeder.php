@@ -21,5 +21,12 @@ class AdminTableSeeder extends Seeder
             'password'=>'$2y$10$8myWRaTmc9L9bP4O7GQUe.pd5dzIrMddtEoCq.rQwcWogb6FuIY.a', // 1:9
             'permission'=>'0',
         ]);
+
+        DB::table('admin')->insert([
+            'name'=>'CEO',
+            'email'=>'ceo@gmail.com',
+            'password'=>'$2y$10$8myWRaTmc9L9bP4O7GQUe.pd5dzIrMddtEoCq.rQwcWogb6FuIY.a', // 1:9
+            'permission'=>'0',
+        ]);
     }
 }
