@@ -1,6 +1,6 @@
 @extends('layouts.admin')
-@section('title','الخدمات')
-@section('serves_cr','')
+@section('title',__('Customer'))
+@section('customer_cr','')
 @section('content')
 
     <div class="app-content content">
@@ -12,9 +12,9 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">الرئيسية </a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{route('admin.service')}}">  الخدمات </a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.customer')}}">  {{ __('Customer') }} </a>
                                 </li>
-                                <li class="breadcrumb-item active">إضافة  خدمة
+                                <li class="breadcrumb-item active">إضافة  
                                 </li>
                             </ol>
                         </div>
@@ -28,7 +28,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title" id="basic-layout-form"> إضافة  خدمة </h4>
+                                    <h4 class="card-title" id="basic-layout-form"> إضافة   </h4>
                                     <a class="heading-elements-toggle"><i
                                             class="la la-ellipsis-v font-medium-3"></i></a>
                                     <div class="heading-elements">
@@ -44,7 +44,7 @@
                                 @include('admin.include.alerts.errors')
                                 <div class="card-content collapse show">
                                     <div class="card-body">
-                                        <form class="form" action="{{route('admin.service.store')}}" method="POST"
+                                        <form class="form" action="{{route('admin.customer.store')}}" method="POST"
                                               enctype="multipart/form-data">
                                             @csrf
 
@@ -55,12 +55,12 @@
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="projectinput1"> الاسم بالعربي </label>
-                                                            <input type="text" value="" id="name_ar"
+                                                            <label for="projectinput1"> الاسم  </label>
+                                                            <input type="text" value="" id="name"
                                                                    class="form-control" required
-                                                                   placeholder="الاسم بالعربي"
-                                                                   name="name_ar">
-                                                            @error('name_ar')
+                                                                   placeholder="الاسم "
+                                                                   name="name">
+                                                            @error('name')
                                                             <span class="text-danger">{{$message}}</span>
                                                             @enderror
                                                         </div>
@@ -68,12 +68,12 @@
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="projectinput1"> الاسم بالانجليزي </label>
-                                                            <input type="text" value="" id="name_en"
-                                                                   class="form-control" required
-                                                                   placeholder="الاسم بالانجليزي  "
-                                                                   name="name_en">
-                                                            @error('name_en')
+                                                            <label for="projectinput1"> {{ __('Phone') }}  1</label>
+                                                            <input type="text" value="" id="phone1"
+                                                                   class="form-control" 
+                                                                   placeholder="{{ __('Phone') }}  1 "
+                                                                   name="phone1">
+                                                            @error('phone1')
                                                             <span class="text-danger">{{$message}}</span>
                                                             @enderror
                                                         </div>
@@ -81,14 +81,12 @@
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="type"> {{ __('Type') }} </label>
-                                                            <select name="type" class="form-control" id="type" required>
-                                                                <option value="">-- {{ __('Type') }} --</option>
-                                                                <option value="1">{{ __("InPatient") }}</option>
-                                                                <option value="2">{{ __("OutPatient") }}</option>
-                                                                <option value="3">{{ __("Lab") }}</option>
-                                                            </select>
-                                                            @error('type')
+                                                            <label for="projectinput1"> {{ __('Phone') }}  2</label>
+                                                            <input type="text" value="" id="phone2"
+                                                                   class="form-control" 
+                                                                   placeholder="{{ __('Phone') }} 2 "
+                                                                   name="phone2">
+                                                            @error('phone2')
                                                             <span class="text-danger">{{$message}}</span>
                                                             @enderror
                                                         </div>
@@ -96,103 +94,65 @@
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="img">  اضف صوره </label>
-                                                            <input type="file" id="img"
+                                                            <label for="projectinput1"> {{ __('Address') }}  </label>
+                                                            <input type="text" value="" id="address"
                                                                    class="form-control"
-                                                                   accept="image/*"
-                                                                   name="img">
-                                                            @error('img')
+                                                                   placeholder="{{ __('Address') }}"
+                                                                   name="address">
+                                                            @error('address')
                                                             <span class="text-danger">{{$message}}</span>
                                                             @enderror
                                                         </div>
                                                     </div>
 
-                                                </div>
-
-                                                <div class="form-group row">
-                                                    <label class="col-md-2 label-control" for="parent_id">وصف</label>
                                                     <div class="col-md-6">
-                                                        <textarea id="description" class="form-control" placeholder="وصف" 
-                                                            name="description"></textarea>
-                                                        @error('description')
-                                                        <span class="text-danger">{{$message}}</span>
-                                                        @enderror
+                                                        <div class="form-group">
+                                                            <label for="opening_balance"> {{ __('Opening Balance') }}  </label>
+                                                            <input type="number" step=".01" value="" id="opening_balance"
+                                                                   class="form-control" 
+                                                                   placeholder="{{ __('Opening Balance') }} "
+                                                                   name="opening_balance">
+                                                            @error('opening_balance')
+                                                            <span class="text-danger">{{$message}}</span>
+                                                            @enderror
+                                                        </div>
                                                     </div>
-                                                </div>
-
-                                                <div class="form-group row">
-                                                    <label class="col-md-2 label-control" for="category_id">{{ __('Category') }}</label>
-                                                    <div class="col-md-6">
-                                                        <select class="select2 form-control" name="category_id">
-                                                            <option value="">-- {{ __('Category') }} --</option>
-                                                            @foreach($categorys as $category)
-                                                                <option value="{{ $category->id }}">
-                                                                    @if (App::getLocale() == 'ar')
-                                                                        {{ $category->name_ar}}
-                                                                    @else
-                                                                        {{ $category->name_en}}
-                                                                    @endif
-                                                                    
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        @error('category_id')
-                                                        <span class="text-danger">{{$message}}</span>
-                                                        @enderror
-                                                    </div>
+                      
                                                 </div>
 
                                                 <div class="row">
-
                                                     <div class="col-md-6">
                                                         <div class="form-group mt-1">
-                                                            <input type="checkbox"  value="0" name="disabled"
+                                                            <input type="checkbox"  value="0" name="status"
                                                                    id="switcheryColor4"
                                                                    class="switchery" data-color="success"
                                                                    checked/>
                                                             <label for="switcheryColor4"
                                                                    class="card-title ml-1">الحالة </label>
 
-                                                            @error('disabled')
+                                                            @error('status')
                                                             <span class="text-danger">{{$message}}</span>
                                                             @enderror
                                                         </div>
                                                     </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group mt-1">
-                                                            <input type="checkbox"  value="1" name="site"
-                                                                   id="site"
-                                                                   class="switchery" data-color="success"
-                                                                   checked/>
-                                                            <label for="site"
-                                                                   class="card-title ml-1">{{ __('site') }} </label>
-
-                                                            @error('site')
-                                                            <span class="text-danger">{{$message}}</span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-
                                                 </div>
-
-
                                             </div>
 
 
                                             <div class="form-actions">
                                                 
-                                                <a href="{{ route('admin.service') }}" class="btn btn-warning">
+                                                <a href="{{ route('admin.customer') }}" class="btn btn-warning">
                                                      تراجع
                                                 </a>
                                                 
                                                 <button type="submit" class="btn btn-primary" name="btn" value="saveAndNew">
                                                      حفظ و جديد
                                                 </button>
-
                                                 <button type="submit" class="btn btn-primary">
                                                      حفظ
                                                 </button>
+
+                                                
                                             </div>
                                         </form>
                                     </div>

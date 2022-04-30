@@ -17,7 +17,7 @@ else
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{ __('Home') }} </a>
                                 </li>
-                                <li class="breadcrumb-item"><a href="{{route('admin.unit')}}">  تخصص </a>
+                                <li class="breadcrumb-item"><a href="{{route('admin.unit')}}">   {{ __('Unit') }} </a>
                                 </li>
                                 <li class="breadcrumb-item active">تعديل
                                 </li>

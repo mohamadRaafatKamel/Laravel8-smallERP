@@ -72,6 +72,19 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
     });
     ##################### End Transfer ########################
 
+    ##################### Customer ############################
+    Route::group(['prefix'=>'customer'],function (){
+        Route::get('/','CustomerController@index')->name('admin.customer');
+        Route::get('create','CustomerController@create')->name('admin.customer.create');
+        Route::post('store','CustomerController@store')->name('admin.customer.store');
+
+        Route::get('edit/{id}','CustomerController@edit')->name('admin.customer.edit');
+        Route::post('update/{id}','CustomerController@update')->name('admin.customer.update');
+
+        Route::get('delete/{id}','CustomerController@destroy') -> name('admin.customer.delete');
+    });
+    ##################### End Customer ########################
+
     ##################### Clearance ############################
     Route::group(['prefix'=>'clearance'],function (){
         Route::get('/','ClearanceController@index')->name('admin.clearance');

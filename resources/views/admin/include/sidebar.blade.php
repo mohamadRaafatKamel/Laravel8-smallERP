@@ -126,6 +126,30 @@
                 </li>
             @endif 
 
+            @if(\App\Models\Role::havePremission(['customer_view','customer_cr','customer_idt']))
+                <li class="nav-item">
+                    <a href=""><i class="la la-undo"></i>
+                        <span class="menu-title" data-i18n="nav.dash.main"> {{ __('Customer') }} </span>
+                    </a>
+                    <ul class="menu-content">
+                        @if(\App\Models\Role::havePremission(['customer_view','customer_idt']))
+                        <li
+                        @if(View::hasSection('customer_view')) class="active" @endif
+                        ><a class="menu-item" href="{{route('admin.customer')}}"
+                            data-i18n="nav.dash.ecommerce"> عرض الكل </a>
+                        </li>
+                        @endif
+                        @if(\App\Models\Role::havePremission(['customer_cr']))
+                            <li
+                            @if(View::hasSection('customer_cr')) class="active" @endif
+                            ><a class="menu-item" href="{{route('admin.customer.create')}}" data-i18n="nav.dash.crypto">
+                                    أضافه جديد </a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
+            @endif 
+
             @if(\App\Models\Role::havePremission(['transfer_view','transfer_cr','transfer_idt']))
                 <li class="nav-item">
                     <a href=""><i class="la la-undo"></i>

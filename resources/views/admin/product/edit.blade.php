@@ -260,10 +260,7 @@ else
         jQuery(document).ready(function ($) {
 
             // Delete Service 
-            $(".btnDel").click(function(){
-
-                let id = $(this).val();
-                let row = $(this).closest("tr");
+            function clickDetBtn(id, row){
                 let _token   = '{{ csrf_token() }}';
 
                 if(confirm("هل انت متاكد ؟")){
@@ -284,6 +281,12 @@ else
                 }else{
                     return false;
                 }
+            }
+
+            $(".btnDel").click(function(){
+                let id = $(this).val();
+                let row = $(this).closest("tr");
+                clickDetBtn(id, row);
             });
 
             // add Service
@@ -362,6 +365,11 @@ else
                                 hv +'</td><td>'+hp +'</td><td>'+
                                     '<button type="button" class="btn btn-danger btnDel" value='+response.proid+'>'+
                                     '<i class="ft-trash-2"></i></button></td></tr>');
+                                $(".btnDel").click(function(){
+                                    let id = $(this).val();
+                                    let row = $(this).closest("tr");
+                                    clickDetBtn(id, row);
+                                });
                             
                             // console.log(response.srvid);
 
