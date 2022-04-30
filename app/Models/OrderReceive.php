@@ -16,12 +16,14 @@ class OrderReceive extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'order_id', 'product_buy_id', 'status', 'date_receive', 'clearance_id', 'clearance_cost', 'transfer_id', 'transfer_cost', 'admin_id', 'created_at', 'updated_at'    
+        'id', 'order_id', 'date_receive', 'clearance_id', 'clearance_cost', 'transfer_id', 'transfer_cost', 
+        'where', 'customer_id', 'stock_id', 'admin_id', 'status', 'created_at', 'updated_at'    
     ];
 
     public function  scopeSelection($query){
         return $query -> select(
-            'id', 'order_id', 'product_buy_id', 'status', 'date_receive', 'clearance_id', 'clearance_cost', 'transfer_id', 'transfer_cost', 'admin_id', 'created_at', 'updated_at'    
+            'id', 'order_id', 'date_receive', 'clearance_id', 'clearance_cost', 'transfer_id', 'transfer_cost', 
+            'where', 'customer_id', 'stock_id', 'admin_id', 'status', 'created_at', 'updated_at'         
         );
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ClearanceComp;
 use App\Models\Log;
 use App\Models\Order;
 use App\Models\OrderInfo;
@@ -10,6 +11,7 @@ use App\Models\Product;
 use App\Models\ProductBuy;
 use App\Models\Role;
 use App\Models\Supplier;
+use App\Models\TransferComp;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,17 +83,13 @@ class OrderController extends Controller
     {
         if(! Role::havePremission(['order_cr']))
             return redirect()->route('admin.dashboard');
-
-        $order = $orderinfos = [];
-        $sups = Supplier::selection()->active()->get();
-        $pros = Product::selection()->active()->get();
+        
+        $clears = ClearanceComp::selection()->active()->get();
+        $trans = TransferComp::selection()->active()->get();
         $units = Unit::selection()->active()->get();
-        if(isset($id)){
-            $order = Order::selection()->find($id);
-            $orderinfos = OrderInfo::selection()->where('order_id',$id)->get();
-        }
+        
         // dd($proCats);
-        return view('admin.order.receive');
+        return view('admin.order.receive',compact('clears','trans','units'));
     }
 
     // AJAX

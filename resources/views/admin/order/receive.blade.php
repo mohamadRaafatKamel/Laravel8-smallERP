@@ -52,62 +52,7 @@
 
                                                 <div class="row">
                                                     
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="supplier_id"> {{ __('Supplier') }}  </label>
-                                                            <select class="select2 form-control" name="supplier_id" id="supplier_id">
-                                                                <option value="">-- {{ __('Supplier') }} --</option>
-                                                                @foreach($sups as $sup)
-                                                                    <option value="{{ $sup->id }}"
-                                                                        @if (isset($order->supplier_id))
-                                                                            @if ($order->supplier_id == $sup->id) selected @endif
-                                                                        @endif>
-                                                                        {{ $sup->name}}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                            <input type="hidden" name="orderid" id="order" @if (isset($order->id)) value="{{ $order->id }}" @endif />
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="contract_no"> {{ __('Contract No.') }}  </label>
-                                                            <input type="number" id="contract_no"
-                                                                   class="form-control" name="contract_no"
-                                                                   @if (isset($order->contract_no)) value="{{ $order->contract_no }}" @endif
-                                                                   placeholder="{{ __('Contract No.') }}">
-                                                            @error('contract_no')
-                                                            <span class="text-danger">{{$message}}</span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="date_order"> {{ __('Order Date') }}  </label>
-                                                            <input type="date" id="date_order" name="date_order"
-                                                                   class="form-control" required
-                                                                   @if (isset($order->date_order)) value="{{ $order->date_order }}" @endif
-                                                                   placeholder="{{ __('Order Date') }} ">
-                                                            @error('date_order')
-                                                            <span class="text-danger">{{$message}}</span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="date_arrive"> {{ __('Arrive Date') }}  </label>
-                                                            <input type="date" id="date_arrive" name="date_arrive"
-                                                                   class="form-control" required
-                                                                   @if (isset($order->date_arrive)) value="{{ $order->date_arrive }}" @endif
-                                                                   placeholder="{{ __('Arrive Date') }} ">
-                                                            @error('date_arrive')
-                                                            <span class="text-danger">{{$message}}</span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
+                                                   
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
