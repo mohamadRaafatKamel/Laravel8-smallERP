@@ -112,7 +112,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="payment_way"> {{ __('Payment Way') }} </label>
-                                                            <select id="payment_way" required class="form-control" name="payment_way">
+                                                            <select id="payment_way" class="form-control" name="payment_way">
                                                                 <option value="" >-- {{ __('Payment Way') }}  --</option>
                                                                 @if (isset($order->payment_way))
                                                                     <option value="1" @if ($order->payment_way == '1') selected @endif>
@@ -200,13 +200,13 @@
                                                     <input type="hidden" id="ordid" value="">
 
                                                     <div class="col-md-1">
-                                                        @if (isset($order->status)) 
-                                                            @if ($order->status == 0)
+                                                        {{-- @isset($order->status) --}}
+                                                            @if (! isset($order->status) || $order->status == 0)
                                                                 <button type="button" style="margin-top: 25px;" class="btn btn-primary" id="btnOrdInfo">
                                                                     {{ __('Add') }}
                                                                 </button>
                                                             @endif
-                                                        @endif
+                                                        {{-- @endisset --}}
                                                     </div>
                                                 </div>
                                             
@@ -255,8 +255,8 @@
                                                 <a href="{{ route('admin.order') }}" class="btn btn-warning">
                                                      تراجع
                                                 </a>
-                                                @if (isset($order->status)) 
-                                                    @if ($order->status == 0)
+                                                {{-- @isset($order->status)  --}}
+                                                @if (! isset($order->status) || $order->status == 0)
                                                         <button type="submit" class="btn btn-primary">
                                                             {{ __('Save') }}
                                                         </button>
@@ -266,7 +266,7 @@
                                                         </button>
 
                                                     @endif
-                                                @endif
+                                                {{-- @endisset --}}
 
                                             </div>
                                         </form>
@@ -278,10 +278,11 @@
                 </section>
                 <!-- // Basic form layout section end -->
 
+                @isset($order->status)
                 @if ($order->status != '0')
 
                 <!--  Order Receive Table -->
-                <section id="dom">
+                {{-- <section id="dom">
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -317,7 +318,7 @@
                                             </thead>
                                             <tbody>
 
-                                            {{-- @isset($datas)
+                                            @isset($datas)
                                                 @foreach($datas as $data)
                                                     <tr>
                                                         <td>{{$data -> id}}</td>
@@ -333,7 +334,7 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
-                                            @endisset --}}
+                                            @endisset 
 
 
                                             </tbody>
@@ -345,9 +346,10 @@
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> --}}
                 {{-- Order Receive Table --}}
                 @endif
+                @endisset
             </div>
         </div>
     </div>

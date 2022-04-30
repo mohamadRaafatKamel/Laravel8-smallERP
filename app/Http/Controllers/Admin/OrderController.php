@@ -67,6 +67,8 @@ class OrderController extends Controller
                         $request->request->add(['status' =>  '5' ]);
                         $data->update($request->except(['_token']));
                     }
+                }else{
+                    $data->update($request->except(['_token']));
                 }
             }else
                 $spc= Order::create($request->except(['_token']));
