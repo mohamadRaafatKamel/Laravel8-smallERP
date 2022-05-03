@@ -8,9 +8,15 @@ composer require laravel/socialite
 composer require maatwebsite/excel
 composer require maatwebsite/excel --ignore-platform-reqs
 php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider" --tag=config
-// enter Live
-mysql -ucarehubadmin 3306 -h production-care-hub.cmi4i0yhkbdc.us-east-1.rds.amazonaws.com -p care_hub > dbexport.sql
-// dumb Live
-mysqldump -ucarehubadmin -P 3306 -h production-care-hub.cmi4i0yhkbdc.us-east-1.rds.amazonaws.com -p care_hub > dbexport5.sql
+
+
+// tasks
+
+in receve 
+show only product in his order
+
+in order 
+-show how many product amount left
+-pay in order
 
 

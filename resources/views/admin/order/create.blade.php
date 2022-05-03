@@ -98,19 +98,6 @@
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="date_arrive"> {{ __('Arrive Date') }}  </label>
-                                                            <input type="date" id="date_arrive" name="date_arrive"
-                                                                   class="form-control" required
-                                                                   @if (isset($order->date_arrive)) value="{{ $order->date_arrive }}" @endif
-                                                                   placeholder="{{ __('Arrive Date') }} ">
-                                                            @error('date_arrive')
-                                                            <span class="text-danger">{{$message}}</span>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
                                                             <label for="payment_way"> {{ __('Payment Way') }} </label>
                                                             <select id="payment_way" class="form-control" name="payment_way">
                                                                 <option value="" >-- {{ __('Payment Way') }}  --</option>
@@ -309,7 +296,7 @@
                                             <thead>
                                             <tr>
                                                 <th>ID </th>
-                                                <th>{{ __('Supplier') }} </th>
+                                                <th>{{ __('Date') }} </th>
                                                 <th>{{ __('Clearance Company') }} </th>
                                                 <th>{{ __('Transfer Company') }} </th>
                                                 <th></th>
@@ -317,16 +304,16 @@
                                             </thead>
                                             <tbody>
 
-                                            @isset($datas)
-                                                @foreach($datas as $data)
+                                            @isset($recevs)
+                                                @foreach($recevs as $recev)
                                                     <tr>
-                                                        <td>{{$data -> id}}</td>
-                                                        <td>{{$data -> date_receive}}</td>
-                                                        <td>{{$data -> clearance_id }}</td>
-                                                        <td>{{$data -> transfer_id }}</td>
+                                                        <td>{{$recev -> id}}</td>
+                                                        <td>{{$recev -> date_receive}}</td>
+                                                        <td>{{$recev -> getClearanceComp() }}</td>
+                                                        <td>{{$recev -> getTransferComp() }}</td>
                                                         <td>
                                                                  @if(\App\Models\Role::havePremission(['order_idt']))
-                                                                <a href="{{route('admin.order.create',['id'=> $data->id ])}}"
+                                                                <a href="{{route('admin.order.receive.create',[$order->id, $recev->id ])}}"
                                                                    class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">تعديل</a>
                                                                    @endif
                                                         </td>

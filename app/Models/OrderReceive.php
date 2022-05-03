@@ -26,4 +26,22 @@ class OrderReceive extends Model
             'where', 'customer_id', 'stock_id', 'admin_id', 'status', 'created_at', 'updated_at'         
         );
     }
+
+    public function getClearanceComp()
+    {
+        $data = ClearanceComp::select()->find($this->clearance_id);
+        if(isset($data->id)){
+            return $data->name;
+        }
+        return "";
+    }
+
+    public function getTransferComp()
+    {
+        $data = TransferComp::select()->find($this->transfer_id);
+        if(isset($data->id)){
+            return $data->name;
+        }
+        return "";
+    }
 }

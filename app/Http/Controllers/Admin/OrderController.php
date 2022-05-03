@@ -9,6 +9,7 @@ use App\Models\Log;
 use App\Models\Order;
 use App\Models\OrderInfo;
 use App\Models\OrderReceive;
+use App\Models\OrderReceiveInfo;
 use App\Models\Product;
 use App\Models\ProductBuy;
 use App\Models\Role;
@@ -35,17 +36,18 @@ class OrderController extends Controller
         if(! Role::havePremission(['order_cr']))
             return redirect()->route('admin.dashboard');
 
-        $order = $orderinfos = [];
+        $order = $orderinfos = $recevs = [];
         $sups = Supplier::selection()->active()->get();
         $pros = Product::selection()->active()->get();
         $units = Unit::selection()->active()->get();
         if(isset($id)){
             $order = Order::selection()->find($id);
             $orderinfos = OrderInfo::selection()->where('order_id',$id)->get();
+            $recevs = OrderReceive::selection()->where('order_id',$id)->get();
         }
         // dd($proCats);
         return view('admin.order.create',
-        compact('order','orderinfos','sups','pros','units'));
+        compact('order','orderinfos','sups','pros','units','recevs'));
     }
 
     public function store(Request $request)
@@ -89,14 +91,20 @@ class OrderController extends Controller
         if(! Role::havePremission(['order_cr']))
             return redirect()->route('admin.dashboard');
         
+        $data = $pros = $infos = [];
         $clears = ClearanceComp::selection()->active()->get();
         $trans = TransferComp::selection()->active()->get();
         $customers = Customer::selection()->active()->get();
         $stocks = Stock::selection()->active()->get();
-        $units = Unit::selection()->active()->get();
+
+        if (isset($id)){
+            $data = OrderReceive::selection()->find($id);
+            $pros = Product::selection()->active()->get();
+            $infos = OrderReceiveInfo::selection()->where('order_receive_id',$id)->get();
+        }
         
         // dd($proCats);
-        return view('admin.order.receive',compact('oid','clears','trans','customers','stocks','units'));
+        return view('admin.order.receive',compact('oid','data','infos','clears','trans','customers','stocks','pros'));
     }
 
     public function receiveStore($oid, $id = null, Request $request)
@@ -104,7 +112,7 @@ class OrderController extends Controller
         if(! Role::havePremission(['order_cr']))
             return redirect()->route('admin.dashboard');
         
-        // try {
+        try {
             if (isset($oid))
                 $request->request->add(['order_id' =>  $oid ]);
             else
@@ -131,9 +139,9 @@ class OrderController extends Controller
             }
              
             return redirect()->route('admin.order.create',$oid)->with(['success'=>'تم الحفظ']);
-        // }catch (\Exception $ex){
-        //     return redirect()->route('admin.order')->with(['error'=>'يوجد خطء']);
-        // }
+        }catch (\Exception $ex){
+            return redirect()->route('admin.order')->with(['error'=>'يوجد خطء']);
+        }
     }
 
     // AJAX
@@ -211,12 +219,44 @@ class OrderController extends Controller
 
     public function destroyOrderInfo(Request $request)
     {
-        if(! Role::havePremission(['request_all','request_emergency','request_out','request_in']))
-            return response()->json(['success'=>0],400);
-
+       
         try {
 
             $data = OrderInfo::find($request->id);
+            if (!$data) {
+                return response()->json(['success'=>0],400);
+            }
+            // Log::setLog('delete','request_call', $request->id, "", "");
+            $data->delete();
+            // $data->update(['status'=> '99']);
+            
+            return response()->json(['success'=>1 ],200);
+        }catch (\Exception $ex){
+            return response()->json(['success'=>0],400);
+        }
+    }
+
+    public function setOrderReceiveInfo(Request $request)
+    {
+        if(! Role::havePremission(['order_cr']))
+            return "No Premission";
+
+        try {
+
+            $request->request->add(['admin_id' =>  Auth::user()->id ]);
+            $data= OrderReceiveInfo::create($request->except(['_token']));
+            // Log::setLog('create','price_list_info',$PL->id,"","");
+
+            return response()->json(['success'=>'Added','ordinfoid'=>$data->id],200);
+        }catch (\Exception $ex){
+            return response()->json(['success'=>$ex],400);
+        }
+    }
+
+    public function destroyOrderReceiveInfo(Request $request)
+    {
+        try {
+            $data = OrderReceiveInfo::find($request->id);
             if (!$data) {
                 return response()->json(['success'=>0],400);
             }

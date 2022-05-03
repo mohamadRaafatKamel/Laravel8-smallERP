@@ -154,6 +154,9 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
         Route::post('/get/pro/cat', 'OrderController@getProductCat')->name('ajax.order.get.product.cat');
         Route::post('/get/pro/unit', 'OrderController@getProductUnit')->name('ajax.order.get.product.unit');
         Route::post('delete/info','OrderController@destroyOrderInfo') -> name('admin.order.info.delete');
+
+        Route::post('/receive/setinfo', 'OrderController@setOrderReceiveInfo')->name('ajax.receive.set.info');
+        Route::post('/receive/delete/info','OrderController@destroyOrderReceiveInfo') -> name('ajax.receive.info.delete');
     });
     ##################### End Order ########################
 

@@ -26,4 +26,12 @@ class OrderReceiveInfo extends Model
             'admin_id', 'status', 'created_at', 'updated_at', 'updated_at'         
         );
     }
+
+    public function getUnit(){
+        return Unit::getName($this->unit_id) ;
+    }
+
+    public function getProduct(){
+        return Product::getName($this->product_id) ;
+    }
 }
