@@ -385,11 +385,11 @@ else
 
         // Show/hide Part section
         function showHidePartSection()
-            {
-                if($('#part_have').is(":checked"))   
-                    $("#partSection").show();   
-                else
-                    $("#partSection").hide();
-            }
+        {
+            if($('#part_have').is(":checked"))   
+                $("#partSection").show();   
+            else
+                $("#partSection").hide();
+        }
     </script>
 @endsection

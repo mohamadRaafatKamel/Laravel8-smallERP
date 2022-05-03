@@ -282,7 +282,7 @@
                 @if ($order->status != '0')
 
                 <!--  Order Receive Table -->
-                {{-- <section id="dom">
+                <section id="dom">
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -302,7 +302,7 @@
                                 <div class="card-content collapse show">
                                     <div class="card-body card-dashboard">
                                         @if(\App\Models\Role::havePremission(['order_cr']))
-                                        <a class="btn btn-primary mb-2 mr15" href="{{ route('admin.order.receive.create') }}"><i class="ft-plus"></i>&nbsp; {{ __('Create') }}</a>
+                                        <a class="btn btn-primary mb-2 mr15" href="{{ route('admin.order.receive.create',[$order->id]) }}"><i class="ft-plus"></i>&nbsp; {{ __('Create') }}</a>
                                         @endif
                                         <table
                                             class="table table-striped table-bordered ordering-print ">
@@ -310,9 +310,8 @@
                                             <tr>
                                                 <th>ID </th>
                                                 <th>{{ __('Supplier') }} </th>
-                                                <th>{{ __('Order Date') }} </th>
-                                                <th>{{ __('Arrive Date') }} </th>
-                                                
+                                                <th>{{ __('Clearance Company') }} </th>
+                                                <th>{{ __('Transfer Company') }} </th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -322,10 +321,9 @@
                                                 @foreach($datas as $data)
                                                     <tr>
                                                         <td>{{$data -> id}}</td>
-                                                        <td>{{$data -> supplier_id}}</td>
-                                                        <td>{{$data -> date_order}}</td>
-                                                        <td>{{$data -> date_arrive}}</td>
-                                                        
+                                                        <td>{{$data -> date_receive}}</td>
+                                                        <td>{{$data -> clearance_id }}</td>
+                                                        <td>{{$data -> transfer_id }}</td>
                                                         <td>
                                                                  @if(\App\Models\Role::havePremission(['order_idt']))
                                                                 <a href="{{route('admin.order.create',['id'=> $data->id ])}}"
@@ -346,7 +344,7 @@
                             </div>
                         </div>
                     </div>
-                </section> --}}
+                </section>
                 {{-- Order Receive Table --}}
                 @endif
                 @endisset

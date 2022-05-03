@@ -25,4 +25,12 @@ class Employ extends Model
             'id', 'name', 'address', 'phone1', 'status', 'phone2', 'salary', 'patment', 'admin_id', 'created_at', 'updated_at'    
         );
     }
+
+    public function scopeActive($query){
+        return $query -> where('status',0);
+    }
+
+    public function getActive(){
+        return $this -> status == 0 ? 'مفعل'  : 'غير مفعل';
+    }
 }

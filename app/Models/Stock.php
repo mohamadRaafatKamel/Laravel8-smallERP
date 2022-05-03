@@ -24,4 +24,12 @@ class Stock extends Model
             'id', 'name', 'address', 'admin_id', 'status', 'created_at', 'updated_at'    
         );
     }
+
+    public function scopeActive($query){
+        return $query -> where('status',0);
+    }
+
+    public function getActive(){
+        return $this -> status == 0 ? 'مفعل'  : 'غير مفعل';
+    }
 }

@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ClearanceComp;
+use App\Models\Customer;
 use App\Models\Log;
 use App\Models\Order;
 use App\Models\OrderInfo;
+use App\Models\OrderReceive;
 use App\Models\Product;
 use App\Models\ProductBuy;
 use App\Models\Role;
+use App\Models\Stock;
 use App\Models\Supplier;
 use App\Models\TransferComp;
 use App\Models\Unit;
@@ -81,17 +84,56 @@ class OrderController extends Controller
     }
 
     // Receive
-    public function receiveView($id = null)
+    public function receiveView($oid, $id = null)
     {
         if(! Role::havePremission(['order_cr']))
             return redirect()->route('admin.dashboard');
         
         $clears = ClearanceComp::selection()->active()->get();
         $trans = TransferComp::selection()->active()->get();
+        $customers = Customer::selection()->active()->get();
+        $stocks = Stock::selection()->active()->get();
         $units = Unit::selection()->active()->get();
         
         // dd($proCats);
-        return view('admin.order.receive',compact('clears','trans','units'));
+        return view('admin.order.receive',compact('oid','clears','trans','customers','stocks','units'));
+    }
+
+    public function receiveStore($oid, $id = null, Request $request)
+    {
+        if(! Role::havePremission(['order_cr']))
+            return redirect()->route('admin.dashboard');
+        
+        // try {
+            if (isset($oid))
+                $request->request->add(['order_id' =>  $oid ]);
+            else
+                return redirect()->route('admin.order')->with(['error' => ' حاول وقت اخر']);
+
+            $request->request->add(['admin_id' =>  Auth::user()->id ]);
+// dd($id);
+            if (isset($id)){
+                $data = OrderReceive::find($id);
+                if (!$data) {
+                    return redirect()->route('admin.order')->with(['error' => '  غير موجوده']);
+                }
+                // update
+                if (!$request->has('where'))
+                    $request->request->add(['where' => 0]);
+                $data->update($request->except(['_token']));
+            }else{
+                // create
+                if (!$request->has('where'))
+                    $request->request->add(['where' => 0]);
+
+                $spc= OrderReceive::create($request->except(['_token']));
+                // Log::setLog('create','order',$spc->id,"","");
+            }
+             
+            return redirect()->route('admin.order.create',$oid)->with(['success'=>'تم الحفظ']);
+        // }catch (\Exception $ex){
+        //     return redirect()->route('admin.order')->with(['error'=>'يوجد خطء']);
+        // }
     }
 
     // AJAX

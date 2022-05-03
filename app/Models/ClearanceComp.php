@@ -25,4 +25,12 @@ class ClearanceComp extends Model
             'id', 'name', 'address', 'status','opening_balance', 'phone1', 'phone2', 'admin_id', 'created_at', 'updated_at'    
         );
     }
+
+    public function scopeActive($query){
+        return $query -> where('status',0);
+    }
+
+    public function getActive(){
+        return $this -> status == 0 ? 'مفعل'  : 'غير مفعل';
+    }
 }

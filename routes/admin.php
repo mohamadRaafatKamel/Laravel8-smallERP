@@ -126,24 +126,6 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
     });
     ##################### End Product ########################
 
-    ##################### Order ############################
-    Route::group(['prefix'=>'order'],function (){
-        Route::get('/','OrderController@index')->name('admin.order');
-        Route::get('view/{id?}','OrderController@create')->name('admin.order.create');
-        Route::post('store','OrderController@store')->name('admin.order.store');
-
-        Route::get('receive/view/{id?}','OrderController@receiveView')->name('admin.order.receive.create');
-        // Route::post('update/{id}','OrderController@update')->name('admin.order.update');
-
-        // ajax
-        Route::post('/setinfo', 'OrderController@setOrderInfo')->name('ajax.order.set.info');
-        Route::post('/set', 'OrderController@setOrder')->name('ajax.order.set');
-        Route::post('/get/pro/cat', 'OrderController@getProductCat')->name('ajax.order.get.product.cat');
-        Route::post('/get/pro/unit', 'OrderController@getProductUnit')->name('ajax.order.get.product.unit');
-        Route::post('delete/info','OrderController@destroyOrderInfo') -> name('admin.order.info.delete');
-    });
-    ##################### End Order ########################
-
     ##################### Admin ##############################
     Route::group(['prefix'=>'admin'],function (){
         Route::get('/','AdminController@index')->name('admin.admin');
@@ -156,6 +138,26 @@ Route::group(['namespace'=>'App\Http\Controllers\Admin', 'middleware'=>'auth:adm
         Route::get('delete/{id}','AdminController@destroy') -> name('admin.admin.delete');
     });
     ##################### End Admin ##########################
+
+    ##################### Order ############################
+    Route::group(['prefix'=>'order'],function (){
+        Route::get('/','OrderController@index')->name('admin.order');
+        Route::get('view/{id?}','OrderController@create')->name('admin.order.create');
+        Route::post('store','OrderController@store')->name('admin.order.store');
+
+        Route::get('receive/view/{oid}/{id?}','OrderController@receiveView')->name('admin.order.receive.create');
+        Route::post('receive/store/{oid}/{id?}','OrderController@receiveStore')->name('admin.order.receive.store');
+
+        // ajax
+        Route::post('/setinfo', 'OrderController@setOrderInfo')->name('ajax.order.set.info');
+        Route::post('/set', 'OrderController@setOrder')->name('ajax.order.set');
+        Route::post('/get/pro/cat', 'OrderController@getProductCat')->name('ajax.order.get.product.cat');
+        Route::post('/get/pro/unit', 'OrderController@getProductUnit')->name('ajax.order.get.product.unit');
+        Route::post('delete/info','OrderController@destroyOrderInfo') -> name('admin.order.info.delete');
+    });
+    ##################### End Order ########################
+
+    
 
 });
 

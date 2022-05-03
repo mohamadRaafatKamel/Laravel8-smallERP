@@ -44,7 +44,7 @@
                                 @include('admin.include.alerts.errors')
                                 <div class="card-content collapse show">
                                     <div class="card-body">
-                                        <form class="form" action="{{route('admin.order.store')}}" method="POST">
+                                        <form class="form" action="{{route('admin.order.receive.store',[$oid])}}" method="POST">
                                             @csrf
 
                                             <div class="form-body">
@@ -52,145 +52,122 @@
 
                                                 <div class="row">
                                                     
-                                                   
-
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="payment_way"> {{ __('Payment Way') }} </label>
-                                                            <select id="payment_way" required class="form-control" name="payment_way">
-                                                                <option value="" >-- {{ __('Payment Way') }}  --</option>
-                                                                @if (isset($order->payment_way))
-                                                                    <option value="1" @if ($order->payment_way == '1') selected @endif>
-                                                                        {{ __('Cash') }}</option>
-                                                                    <option value="2" @if ($order->payment_way == '2') selected @endif>
-                                                                        {{ __('Pay Later') }}</option>
-                                                                @else
-                                                                    <option value="1" >{{ __('Cash') }}</option>
-                                                                    <option value="2" >{{ __('Pay Later') }}</option>
-                                                                @endif
-                                                            </select>
-                                                            @error('payment_way')
-                                                            <span class="text-danger">{{$message}}</span>
+                                                            <label for="date_receive"> {{ __('Date') }}  </label>
+                                                            <input type="date" id="date_receive" name="date_receive"
+                                                                   class="form-control" required
+                                                                   @if (isset($order->date_receive)) value="{{ $order->date_receive }}" @endif
+                                                                   placeholder="{{ __('Date') }} ">
+                                                            @error('date_receive')
+                                                                <span class="text-danger">{{$message}}</span>
                                                             @enderror
                                                         </div>
                                                     </div>
 
                                                 </div>
-
-                                                <h4 class="form-section"><i class="ft-home"></i> {{ __('Product') }} </h4>
-
-
                                                 <div class="row">
 
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="product_id"> {{ __('Product') }}  </label>
-                                                            <select class="select2 form-control" id="product_id">
-                                                                <option value="">-- {{ __('Product') }} --</option>
-                                                                @foreach($pros as $pro)
-                                                                    <option value="{{ $pro->id }}">
-                                                                        {{ $pro->name}}
+                                                            <label for="clearance_id"> {{ __('Clearance Company') }}  </label>
+                                                            <select class="select2 form-control" name="clearance_id" id="clearance_id">
+                                                                <option value="">-- {{ __('Clearance Company') }} --</option>
+                                                                @foreach($clears as $clear)
+                                                                    <option value="{{ $clear->id }}">
+                                                                        {{ $clear->name}}
                                                                     </option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-2">
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="procat"> المواصفات </label>
-                                                            <select class="select2 form-control" id="procat">
-                                                                <option value="">-- المواصفات --</option>
-                                                                {{-- @foreach($pros as $pro)
-                                                                    <option value="{{ $pro->id }}">
-                                                                        {{ $pro->name}}
-                                                                    </option>
-                                                                @endforeach --}}
-                                                            </select>
+                                                            <label for="clearance_cost"> {{ __('Cost') }}  </label>
+                                                            <input type="number" step="0.01" value="" id="clearance_cost" 
+                                                                class="form-control"  max="6"  name="clearance_cost"
+                                                                placeholder="{{ __('Cost') }}">
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-2">
-                                                        <div class="form-group">
-                                                            <label for="amount"> {{ __('Amount') }}  </label>
-                                                            <input type="number" step="0.01" value="" id="amount" 
-                                                                class="form-control"  max="6"
-                                                                placeholder="{{ __('0.00') }}">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <div class="form-group">
-                                                            <label for="unit_id"> {{ __('Unit') }}  </label>
-                                                            <select class="select2 form-control" id="unit_id">
-                                                                <option value="">-- {{ __('Unit') }} --</option>
-                                                                {{-- @foreach($units as $unit)
-                                                                    <option value="{{ $unit->id }}">
-                                                                        {{ $unit->name}}
-                                                                    </option>
-                                                                @endforeach --}}
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <div class="form-group">
-                                                            <label for="price"> {{ __('Price') }}  </label>
-                                                            <input type="number" step="0.01" value="" id="price" 
-                                                                class="form-control"  max="6"
-                                                                placeholder="{{ __('Price') }}">
-                                                        </div>
-                                                    </div>
-
-                                                    <input type="hidden" id="ordid" value="">
-
-                                                    <div class="col-md-1">
-                                                        @if (isset($order->status)) 
-                                                            @if ($order->status == 0)
-                                                                <button type="button" style="margin-top: 25px;" class="btn btn-primary" id="btnOrdInfo">
-                                                                    {{ __('Add') }}
-                                                                </button>
-                                                            @endif
-                                                        @endif
-                                                    </div>
                                                 </div>
-                                            
                                                 <div class="row">
-                                                    <table class="table table-striped table-bordered" id="tblService">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>{{ __('Product') }}</th>
-                                                                <th>{{ __('Amount') }}</th>
-                                                                <th>{{ __('Unit') }}</th>
-                                                                <th>{{ __('Price') }}</th>
-                                                                <th> </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        @if (isset($orderinfos))
-                                                            @foreach ($orderinfos as $orderinfo)
-                                                                <tr>
-                                                                    <td>{{ $orderinfo->getProduct() }} {{ $orderinfo->product_cat }}</td>
-                                                                    <td>{{ $orderinfo->amount }}</td>
-                                                                    <td>{{ $orderinfo->getUnit() }}</td>
-                                                                    <td>{{ $orderinfo->price }}</td>
-                                                                    <td>
-                                                                        @if (isset($order->status)) 
-                                                                            @if ($order->status == 0)
-                                                                                <button type="button" class="btn btn-danger btnDelOrderInfo" name="btn" value="{{ $orderinfo->id }}">
-                                                                                    <i class="ft-trash-2"></i>
-                                                                                </button>
-                                                                            @endif
-                                                                        @endif
-                                                                        {{-- <a href="{{route('admin.order.info.delete',[$datas->id, $prbuy->id])}}" class="btn btn-danger" ><i class="ft-trash-2"></i></a> --}}
-                                                                    </td>
-                                                                </tr>
-                                                            @endforeach
-                                                        @endif
-                                                        </tbody>
-                                                    </table>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="transfer_id"> {{ __('Transfer Company') }}  </label>
+                                                            <select class="select2 form-control" name="transfer_id" id="transfer_id">
+                                                                <option value="">-- {{ __('Transfer Company') }} --</option>
+                                                                @foreach($trans as $tran)
+                                                                    <option value="{{ $tran->id }}">
+                                                                        {{ $tran->name}}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="transfer_cost"> {{ __('Cost') }}  </label>
+                                                            <input type="number" step="0.01" value="" id="transfer_cost" 
+                                                                class="form-control"  max="6"  name="transfer_cost"
+                                                                placeholder="{{ __('Cost') }}">
+                                                        </div>
+                                                    </div>
+
                                                 </div>
-                                            {{-- End Add Servese --}}
+
+                                                <div class="row">
+
+                                                    <div class="col-md-6">
+                                                        <div class="form-group mt-1">
+                                                            <label for="where"
+                                                                   class="card-title ml-1">{{ __('Customer') }} </label>
+                                                            <input type="checkbox" value="1" id="where" name="where"
+                                                                    onchange="stockOrCustomer()"
+                                                                   class="switchery" />
+                                                            <label for="where"
+                                                                   class="card-title ml-1">{{ __('Stock') }} </label>
+                                                            @error('where')
+                                                            <span class="text-danger">{{$message}}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6" id="customer" style="display: none;">
+                                                        <div class="form-group">
+                                                            <label for="customer_id"> {{ __('Customer') }}  </label>
+                                                            <select class="select2 form-control" style="width: 100%"
+                                                                name="customer_id" id="customer_id">
+                                                                <option value="">-- {{ __('Customer') }} --</option>
+                                                                @foreach($customers as $customer)
+                                                                    <option value="{{ $customer->id }}">
+                                                                        {{ $customer->name}}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6" id="stock">
+                                                        <div class="form-group">
+                                                            <label for="stock_id"> {{ __('Stock') }}  </label>
+                                                            <select class="select2 form-control" style="width: 100%"
+                                                                name="stock_id" id="stock_id">
+                                                                <option value="">-- {{ __('Stock') }} --</option>
+                                                                @foreach($stocks as $stock)
+                                                                    <option value="{{ $stock->id }}">
+                                                                        {{ $stock->name}}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
                                                
                                             </div>
 
@@ -200,19 +177,10 @@
                                                 <a href="{{ route('admin.order') }}" class="btn btn-warning">
                                                      تراجع
                                                 </a>
-                                                @if (isset($order->status)) 
-                                                    @if ($order->status == 0)
-                                                        <button type="submit" class="btn btn-primary">
-                                                            {{ __('Save') }}
-                                                        </button>
-        
-                                                        <button type="submit" name="btn" value="ConfBtn" class="btn btn-primary">
-                                                            {{ __('Confirm') }}
-                                                        </button>
-
-                                                    @endif
-                                                @endif
-
+                                                
+                                                <button type="submit" class="btn btn-primary">
+                                                    {{ __('Save') }}
+                                                </button>
                                             </div>
                                         </form>
                                     </div>
@@ -223,73 +191,6 @@
                 </section>
                 <!-- // Basic form layout section end -->
 
-                <!--  Order Receive Table -->
-                <section id="dom">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title"> {{ __('Order Receive') }}</h4>
-                                    <a class="heading-elements-toggle"><i
-                                            class="la la-ellipsis-v font-medium-3"></i></a>
-                                    <div class="heading-elements">
-                                        <ul class="list-inline mb-0">
-                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="card-content collapse show">
-                                    <div class="card-body card-dashboard">
-                                        @if(\App\Models\Role::havePremission(['order_cr']))
-                                        <a class="btn btn-primary mb-2 mr15" href="{{ route('admin.order.receive.create') }}"><i class="ft-plus"></i>&nbsp; {{ __('Create') }}</a>
-                                        @endif
-                                        <table
-                                            class="table table-striped table-bordered ordering-print ">
-                                            <thead>
-                                            <tr>
-                                                <th>ID </th>
-                                                <th>{{ __('Supplier') }} </th>
-                                                <th>{{ __('Order Date') }} </th>
-                                                <th>{{ __('Arrive Date') }} </th>
-                                                
-                                                <th></th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-
-                                            {{-- @isset($datas)
-                                                @foreach($datas as $data)
-                                                    <tr>
-                                                        <td>{{$data -> id}}</td>
-                                                        <td>{{$data -> supplier_id}}</td>
-                                                        <td>{{$data -> date_order}}</td>
-                                                        <td>{{$data -> date_arrive}}</td>
-                                                        
-                                                        <td>
-                                                                 @if(\App\Models\Role::havePremission(['order_idt']))
-                                                                <a href="{{route('admin.order.create',['id'=> $data->id ])}}"
-                                                                   class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">تعديل</a>
-                                                                   @endif
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @endisset --}}
-
-
-                                            </tbody>
-
-                                        </table>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                {{-- Order Receive Table --}}
             </div>
         </div>
     </div>
@@ -299,228 +200,24 @@
 
 @section('script')
     <script>
-        jQuery(document).ready(function ($) {
-
-            //////////// Get Data
-
-            // get Category from Product
-            $('#product_id').change(function(){
-                ProductId = $(this).find(':selected').val();
-                loadCat(ProductId);
-                // loadUnit(ProductId, null);
-            });
-
-            function loadCat(ProductId){
-                $("#procat").children().remove();
-                $.ajax({
-                    url: "{{ route('ajax.order.get.product.cat') }}",
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        pro_id : ProductId,
-                        _token: '{{ csrf_token() }}'
-                    }
-                }).done(function( result ) {
-                    console.log(result.length);
-                    $("#procat").append($('<option>', {
-                        value: '',
-                        text: '-- المواصفات --',
-                    }));
-                    $(result).each(function(){
-                        $("#procat").append($('<option>', {
-                            value: this.category,
-                            text: this.category,
-                        }));
-                    })
-                });
-
-                // console.log('dd');
-                // console.log($("#procat option:selected").val());
-            }
-
-            // get Unit from Product
-            $('#procat').change(function(){
-                // console.log('ggg');
-
-                let cat = $(this).find(':selected').val();
-                let ProductId = $("#product_id option:selected").val();
-                loadUnit(ProductId, cat);
-            });
-
-            function loadUnit(ProductId, cat){
-                
-                $("#unit_id").children().remove();
-                $.ajax({
-                    url: "{{ route('ajax.order.get.product.unit') }}",
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        pro_id : ProductId,
-                        cat : cat,
-                        _token: '{{ csrf_token() }}'
-                    }
-                }).done(function( result ) {
-                    // console.log(result);
-                    
-                    $(result).each(function(){
-                        $("#unit_id").append($('<option>', {
-                            value: this['id'],
-                            text: this['name'],
-                        }));
-                    })
-                });
-            }
-
-          
-            //////////// Set Data
-            // add order
-            function addOrder() {
+        // jQuery(document).ready(function ($) {
 
 
-                console.log('in');
+        // });
 
-                let supplier_id = $("#supplier_id option:selected").val();
-                let supplier_id_text = $("#supplier_id option:selected").text();
-                let contract_no = $("#contract_no").val();
-                let date_order = $("#date_order").val();
-                let date_arrive = $("#date_arrive").val();
-                let payment_way = $("#payment_way option:selected").val();
-                let payment_way_text = $("#payment_way option:selected").text();
-                
-                let _token = '{{ csrf_token() }}';
+        // Show/hide 
+        function stockOrCustomer()
+        {
+            if($('#where').is(":checked")){
+                $("#customer").show(); 
+                $("#stock").hide();  
+            }else{
+                $("#customer").hide(); 
+                $("#stock").show();
+            } 
+        }
 
-                if(supplier_id == ""){
-                    alert("يجب اضافه المعامل");
-                }else if(date_order == ""){
-                    alert("اضافه تاريخ الطلب");
-                }else if(date_arrive == ""){
-                    alert("اضافه تاريخ الوصول");
-                }else{
-                    $.ajax({
-                        url: "{{ route('ajax.order.set') }}",
-                        type: 'POST',
-                        dataType: 'json',
-                        data:{
-                            supplier_id :supplier_id,
-                            contract_no :contract_no,
-                            date_order :date_order,
-                            date_arrive :date_arrive,
-                            payment_way :payment_way,
-                            _token: _token
-                        },
-                        success: function (response) {
-                            $('#order').val(response.orderid);
-                            return response.orderid;
-                        }
-                        // error: function (xhr, ajaxOptions, thrownError) {
-                        //     // console.log(xhr);
-                        // }
-                    });
-                }
-
-
-                return "";
-            }
-            // add order info
-            $('#btnOrdInfo').click(function () {
-
-                let order_id = $("#order").val();
-                if(order_id == ''){
-                    order_id = addOrder();
-                    if(order_id == '') 
-                        return false;
-                }
-                
-                let product_id = $("#product_id option:selected").val();
-                let product_id_text = $("#product_id option:selected").text();
-                let product_cat = $("#procat option:selected").val();
-                let amount = $("#amount").val();
-                let unit_id = $("#unit_id option:selected").val();
-                let unit_id_text = $("#unit_id option:selected").text();
-                let price = $("#price").val();
-                
-                let _token = '{{ csrf_token() }}';
-
-                // console.log(product_cat);
-
-                if(unit_id == ""){
-                    alert("يجب اضافه الوحده");
-                }else if(product_cat == ""){
-                    alert("يجب اضافه المواصفات");
-                }else if(amount == ""){
-                    alert("اضافه الكميه");
-                }else if(price == ""){
-                    alert("اضافه السعر");
-                }else if(product_id == ""){
-                    alert("يجب اضافه المنتج");
-                }else if(amount.length  > 9 ){
-                    alert("الكميه لا يجب ان تتجاوز 6 ارقام صحيحه");
-                }else if(price.length  > 9 ){
-                    alert("السعر لا يجب ان تتجاوز 6 ارقام صحيحه");
-                }else{
-                    $.ajax({
-                        url: "{{ route('ajax.order.set.info') }}",
-                        type: 'POST',
-                        dataType: 'json',
-                        data:{
-                            unit_id :unit_id,
-                            amount :amount,
-                            price :price,
-                            product_id :product_id,
-                            product_cat :product_cat,
-                            order_id :order_id,
-                            _token: _token
-                        },
-                        success: function (response) {
-                            $('#product_id').val('').change();
-                            $('#unit_id').val('').change();
-                            $('#procat').val('').change();
-                            $('#amount').val('');
-                            $('#price').val('');
-                            // let url = '{{route("admin.product.buy.delete",[ 5,":srvid"])}}';
-                            // url = url.replace(':srvid', response.ordinfoid);
-                            $('#tblService tr:last').after('<tr><td>'+product_id_text+ ' '+ product_cat +'</td><td>'+
-                                amount+'</td><td>'+unit_id_text+ '</td><td>'+price+'</td><td>'+
-                                    '<button type="button" class="btn btn-danger btnDelOrderInfo" value='+response.ordinfoid+'>'+
-                                    '<i class="ft-trash-2"></i></button></td></tr>');
-                                // '<a href="'+url+'" class="btn btn-danger" ><i class="ft-trash-2"></i></a>'+'</td></tr>');
-                            
-                        }
-                        // error: function (xhr, ajaxOptions, thrownError) {
-                        //     // console.log(xhr);
-                        // }
-                    });
-                }
-            });
-
-            // Delete order info 
-            $(".btnDelOrderInfo").click(function(){
-
-                let id = $(this).val();
-                let row = $(this).closest("tr");
-                let _token   = '{{ csrf_token() }}';
-
-                if(confirm("هل انت متاكد ؟")){
-                    $.ajax({
-                        url: "{{ route('admin.order.info.delete') }}",
-                        type: 'POST',
-                        dataType: 'json',
-                        data:{
-                            id :id,
-                            _token: _token
-                        },
-                        success: function (response) {
-                            if(response.success == 1){
-                                row.hide();
-                            }
-                        }
-                    });
-                }else{
-                    return false;
-                }
-            });
-
-        });
+        
     </script>
 @endsection
 
